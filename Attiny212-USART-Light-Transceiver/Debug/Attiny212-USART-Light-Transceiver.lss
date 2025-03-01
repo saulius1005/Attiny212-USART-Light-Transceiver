@@ -1,0 +1,544 @@
+
+Attiny212-USART-Light-Transceiver.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00803f80  00803f80  000002fe  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         0000028a  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          00000003  00803f80  00803f80  000002fe  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  000002fe  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000330  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 000000e8  00000000  00000000  00000370  2**3
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   000025c4  00000000  00000000  00000458  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00001b8f  00000000  00000000  00002a1c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   00000a16  00000000  00000000  000045ab  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000158  00000000  00000000  00004fc4  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000011de  00000000  00000000  0000511c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    0000029c  00000000  00000000  000062fa  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000078  00000000  00000000  00006596  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	19 c0       	rjmp	.+50     	; 0x34 <__ctors_end>
+   2:	28 c0       	rjmp	.+80     	; 0x54 <__bad_interrupt>
+   4:	27 c0       	rjmp	.+78     	; 0x54 <__bad_interrupt>
+   6:	26 c0       	rjmp	.+76     	; 0x54 <__bad_interrupt>
+   8:	25 c0       	rjmp	.+74     	; 0x54 <__bad_interrupt>
+   a:	24 c0       	rjmp	.+72     	; 0x54 <__bad_interrupt>
+   c:	23 c0       	rjmp	.+70     	; 0x54 <__bad_interrupt>
+   e:	22 c0       	rjmp	.+68     	; 0x54 <__bad_interrupt>
+  10:	21 c0       	rjmp	.+66     	; 0x54 <__bad_interrupt>
+  12:	20 c0       	rjmp	.+64     	; 0x54 <__bad_interrupt>
+  14:	1f c0       	rjmp	.+62     	; 0x54 <__bad_interrupt>
+  16:	1e c0       	rjmp	.+60     	; 0x54 <__bad_interrupt>
+  18:	1d c0       	rjmp	.+58     	; 0x54 <__bad_interrupt>
+  1a:	1c c0       	rjmp	.+56     	; 0x54 <__bad_interrupt>
+  1c:	1b c0       	rjmp	.+54     	; 0x54 <__bad_interrupt>
+  1e:	1a c0       	rjmp	.+52     	; 0x54 <__bad_interrupt>
+  20:	19 c0       	rjmp	.+50     	; 0x54 <__bad_interrupt>
+  22:	18 c0       	rjmp	.+48     	; 0x54 <__bad_interrupt>
+  24:	17 c0       	rjmp	.+46     	; 0x54 <__bad_interrupt>
+  26:	16 c0       	rjmp	.+44     	; 0x54 <__bad_interrupt>
+  28:	15 c0       	rjmp	.+42     	; 0x54 <__bad_interrupt>
+  2a:	14 c0       	rjmp	.+40     	; 0x54 <__bad_interrupt>
+  2c:	13 c0       	rjmp	.+38     	; 0x54 <__bad_interrupt>
+  2e:	12 c0       	rjmp	.+36     	; 0x54 <__bad_interrupt>
+  30:	11 c0       	rjmp	.+34     	; 0x54 <__bad_interrupt>
+  32:	10 c0       	rjmp	.+32     	; 0x54 <__bad_interrupt>
+
+00000034 <__ctors_end>:
+  34:	11 24       	eor	r1, r1
+  36:	1f be       	out	0x3f, r1	; 63
+  38:	cf ef       	ldi	r28, 0xFF	; 255
+  3a:	cd bf       	out	0x3d, r28	; 61
+  3c:	df e3       	ldi	r29, 0x3F	; 63
+  3e:	de bf       	out	0x3e, r29	; 62
+
+00000040 <__do_clear_bss>:
+  40:	2f e3       	ldi	r18, 0x3F	; 63
+  42:	a0 e8       	ldi	r26, 0x80	; 128
+  44:	bf e3       	ldi	r27, 0x3F	; 63
+  46:	01 c0       	rjmp	.+2      	; 0x4a <.do_clear_bss_start>
+
+00000048 <.do_clear_bss_loop>:
+  48:	1d 92       	st	X+, r1
+
+0000004a <.do_clear_bss_start>:
+  4a:	a3 38       	cpi	r26, 0x83	; 131
+  4c:	b2 07       	cpc	r27, r18
+  4e:	e1 f7       	brne	.-8      	; 0x48 <.do_clear_bss_loop>
+  50:	1b d0       	rcall	.+54     	; 0x88 <main>
+  52:	19 c1       	rjmp	.+562    	; 0x286 <_exit>
+
+00000054 <__bad_interrupt>:
+  54:	d5 cf       	rjmp	.-86     	; 0x0 <__vectors>
+
+00000056 <CLOCK_XOSCHF_clock_init>:
+#include "Settings.h"
+
+void CLOCK_XOSCHF_clock_init()
+{
+	/* Enable external (20 MHz) clock input */
+	ccp_write_io((uint8_t *) &CLKCTRL.MCLKCTRLA, CLKCTRL_CLKSEL_EXTCLK_gc | CLKCTRL_CLKSEL_OSC20M_gc);
+  56:	63 e0       	ldi	r22, 0x03	; 3
+  58:	80 e6       	ldi	r24, 0x60	; 96
+  5a:	90 e0       	ldi	r25, 0x00	; 0
+  5c:	0e d1       	rcall	.+540    	; 0x27a <ccp_write_io>
+
+	/* Disable the main clock prescaler for full-speed operation. */
+	ccp_write_io((uint8_t *) &CLKCTRL.MCLKCTRLB, CLKCTRL_PDIV_2X_gc & ~CLKCTRL_PEN_bm);
+  5e:	60 e0       	ldi	r22, 0x00	; 0
+  60:	81 e6       	ldi	r24, 0x61	; 97
+  62:	90 e0       	ldi	r25, 0x00	; 0
+  64:	0a d1       	rcall	.+532    	; 0x27a <ccp_write_io>
+
+	/* Wait for system oscillator change to complete */
+	while (CLKCTRL.MCLKSTATUS & CLKCTRL_SOSC_bm)
+  66:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <__RODATA_PM_OFFSET__+0x7f8063>
+  6a:	80 fd       	sbrc	r24, 0
+  6c:	fc cf       	rjmp	.-8      	; 0x66 <CLOCK_XOSCHF_clock_init+0x10>
+	{};
+	/* Configuration complete;*/
+}
+  6e:	08 95       	ret
+
+00000070 <GPIO_init>:
+ */ 
+ #include "Settings.h"
+
+void GPIO_init(){
+
+    PORTA.DIRSET = PIN6_bm; // Set PA6 as UART Transceiver TX output
+  70:	e0 e0       	ldi	r30, 0x00	; 0
+  72:	f4 e0       	ldi	r31, 0x04	; 4
+  74:	80 e4       	ldi	r24, 0x40	; 64
+  76:	81 83       	std	Z+1, r24	; 0x01
+    PORTA.PIN6CTRL = PORT_PULLUPEN_bm; //
+  78:	88 e0       	ldi	r24, 0x08	; 8
+  7a:	86 8b       	std	Z+22, r24	; 0x16
+    
+    PORTA.DIRCLR = PIN1_bm | PIN2_bm | PIN7_bm; // Set PA1 as Xmax input, Set PA2 as Xmin input, Set PA7 as Light UART RX input
+  7c:	96 e8       	ldi	r25, 0x86	; 134
+  7e:	92 83       	std	Z+2, r25	; 0x02
+    PORTA.PIN1CTRL = PORT_PULLUPEN_bm; //
+  80:	81 8b       	std	Z+17, r24	; 0x11
+	PORTA.PIN2CTRL = PORT_PULLUPEN_bm; //
+  82:	82 8b       	std	Z+18, r24	; 0x12
+	PORTA.PIN7CTRL = PORT_PULLUPEN_bm; //
+  84:	87 8b       	std	Z+23, r24	; 0x17
+  86:	08 95       	ret
+
+00000088 <main>:
+#include "Settings.h"
+
+
+int main(void)
+{
+	CLOCK_XOSCHF_clock_init();
+  88:	e6 df       	rcall	.-52     	; 0x56 <CLOCK_XOSCHF_clock_init>
+	//CLOCK_INHF_clock_init();
+	GPIO_init();
+  8a:	f2 df       	rcall	.-28     	; 0x70 <GPIO_init>
+	USART0_init();
+  8c:	a5 d0       	rcall	.+330    	; 0x1d8 <USART0_init>
+
+    while (1) 
+    {
+		Transceiver();
+  8e:	5c d0       	rcall	.+184    	; 0x148 <Transceiver>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  90:	2f e7       	ldi	r18, 0x7F	; 127
+  92:	8a e1       	ldi	r24, 0x1A	; 26
+  94:	96 e0       	ldi	r25, 0x06	; 6
+  96:	21 50       	subi	r18, 0x01	; 1
+  98:	80 40       	sbci	r24, 0x00	; 0
+  9a:	90 40       	sbci	r25, 0x00	; 0
+  9c:	e1 f7       	brne	.-8      	; 0x96 <main+0xe>
+  9e:	00 c0       	rjmp	.+0      	; 0xa0 <main+0x18>
+  a0:	00 00       	nop
+  a2:	f5 cf       	rjmp	.-22     	; 0x8e <main+0x6>
+
+000000a4 <executeCommand>:
+ *  Author: Saulius
+ */ 
+ #include "Settings.h"
+ #include "TransceiverVar.h"
+
+ void executeCommand(char *command) {
+  a4:	ef 92       	push	r14
+  a6:	ff 92       	push	r15
+  a8:	0f 93       	push	r16
+  aa:	1f 93       	push	r17
+  ac:	cf 93       	push	r28
+  ae:	df 93       	push	r29
+  b0:	00 d0       	rcall	.+0      	; 0xb2 <executeCommand+0xe>
+  b2:	cd b7       	in	r28, 0x3d	; 61
+  b4:	de b7       	in	r29, 0x3e	; 62
+  b6:	8c 01       	movw	r16, r24
+
+	char temp[2] = {!(PORTA.IN & PIN1_bm) + '0', '\0'};
+  b8:	80 91 08 04 	lds	r24, 0x0408	; 0x800408 <__RODATA_PM_OFFSET__+0x7f8408>
+  bc:	81 fd       	sbrc	r24, 1
+  be:	02 c0       	rjmp	.+4      	; 0xc4 <executeCommand+0x20>
+  c0:	81 e3       	ldi	r24, 0x31	; 49
+  c2:	01 c0       	rjmp	.+2      	; 0xc6 <executeCommand+0x22>
+  c4:	80 e3       	ldi	r24, 0x30	; 48
+  c6:	89 83       	std	Y+1, r24	; 0x01
+  c8:	1a 82       	std	Y+2, r1	; 0x02
+	USART0_sendChar('<');
+  ca:	8c e3       	ldi	r24, 0x3C	; 60
+  cc:	90 d0       	rcall	.+288    	; 0x1ee <USART0_sendChar>
+	strcat(command, "|");
+  ce:	f8 01       	movw	r30, r16
+  d0:	01 90       	ld	r0, Z+
+  d2:	00 20       	and	r0, r0
+  d4:	e9 f7       	brne	.-6      	; 0xd0 <executeCommand+0x2c>
+  d6:	31 97       	sbiw	r30, 0x01	; 1
+  d8:	0f 2e       	mov	r0, r31
+  da:	fc e7       	ldi	r31, 0x7C	; 124
+  dc:	ef 2e       	mov	r14, r31
+  de:	f1 2c       	mov	r15, r1
+  e0:	f0 2d       	mov	r31, r0
+  e2:	e0 82       	st	Z, r14
+  e4:	f1 82       	std	Z+1, r15	; 0x01
+	strcat(command, temp);
+  e6:	be 01       	movw	r22, r28
+  e8:	6f 5f       	subi	r22, 0xFF	; 255
+  ea:	7f 4f       	sbci	r23, 0xFF	; 255
+  ec:	c8 01       	movw	r24, r16
+  ee:	ba d0       	rcall	.+372    	; 0x264 <strcat>
+	strcat(command, "|");
+  f0:	f8 01       	movw	r30, r16
+  f2:	01 90       	ld	r0, Z+
+  f4:	00 20       	and	r0, r0
+  f6:	e9 f7       	brne	.-6      	; 0xf2 <executeCommand+0x4e>
+  f8:	31 97       	sbiw	r30, 0x01	; 1
+  fa:	e0 82       	st	Z, r14
+  fc:	f1 82       	std	Z+1, r15	; 0x01
+	temp[0] = !(PORTA.IN & PIN2_bm) + '0';
+  fe:	80 91 08 04 	lds	r24, 0x0408	; 0x800408 <__RODATA_PM_OFFSET__+0x7f8408>
+ 102:	82 fd       	sbrc	r24, 2
+ 104:	02 c0       	rjmp	.+4      	; 0x10a <executeCommand+0x66>
+ 106:	81 e3       	ldi	r24, 0x31	; 49
+ 108:	01 c0       	rjmp	.+2      	; 0x10c <executeCommand+0x68>
+ 10a:	80 e3       	ldi	r24, 0x30	; 48
+ 10c:	89 83       	std	Y+1, r24	; 0x01
+	strcat(command, temp);
+ 10e:	be 01       	movw	r22, r28
+ 110:	6f 5f       	subi	r22, 0xFF	; 255
+ 112:	7f 4f       	sbci	r23, 0xFF	; 255
+ 114:	c8 01       	movw	r24, r16
+ 116:	a6 d0       	rcall	.+332    	; 0x264 <strcat>
+	strcat(command, ">\r\n");
+ 118:	f8 01       	movw	r30, r16
+ 11a:	01 90       	ld	r0, Z+
+ 11c:	00 20       	and	r0, r0
+ 11e:	e9 f7       	brne	.-6      	; 0x11a <executeCommand+0x76>
+ 120:	31 97       	sbiw	r30, 0x01	; 1
+ 122:	8e e3       	ldi	r24, 0x3E	; 62
+ 124:	9d e0       	ldi	r25, 0x0D	; 13
+ 126:	80 83       	st	Z, r24
+ 128:	91 83       	std	Z+1, r25	; 0x01
+ 12a:	8a e0       	ldi	r24, 0x0A	; 10
+ 12c:	90 e0       	ldi	r25, 0x00	; 0
+ 12e:	82 83       	std	Z+2, r24	; 0x02
+ 130:	93 83       	std	Z+3, r25	; 0x03
+
+	USART0_sendString(command);
+ 132:	c8 01       	movw	r24, r16
+ 134:	63 d0       	rcall	.+198    	; 0x1fc <USART0_sendString>
+ }
+ 136:	0f 90       	pop	r0
+ 138:	0f 90       	pop	r0
+ 13a:	df 91       	pop	r29
+ 13c:	cf 91       	pop	r28
+ 13e:	1f 91       	pop	r17
+ 140:	0f 91       	pop	r16
+ 142:	ff 90       	pop	r15
+ 144:	ef 90       	pop	r14
+ 146:	08 95       	ret
+
+00000148 <Transceiver>:
+
+ void Transceiver() {
+ 148:	0f 93       	push	r16
+ 14a:	1f 93       	push	r17
+ 14c:	cf 93       	push	r28
+ 14e:	df 93       	push	r29
+ 150:	cd b7       	in	r28, 0x3d	; 61
+ 152:	de b7       	in	r29, 0x3e	; 62
+ 154:	a0 97       	sbiw	r28, 0x20	; 32
+ 156:	cd bf       	out	0x3d, r28	; 61
+ 158:	de bf       	out	0x3e, r29	; 62
+	 uint8_t index = 0;
+	 char command[32] = {0};
+ 15a:	fe 01       	movw	r30, r28
+ 15c:	31 96       	adiw	r30, 0x01	; 1
+ 15e:	80 e2       	ldi	r24, 0x20	; 32
+ 160:	df 01       	movw	r26, r30
+ 162:	1d 92       	st	X+, r1
+ 164:	8a 95       	dec	r24
+ 166:	e9 f7       	brne	.-6      	; 0x162 <Transceiver+0x1a>
+	 uint8_t start = 0;
+ 168:	10 e0       	ldi	r17, 0x00	; 0
+
+	USART0_sendString(command);
+ }
+
+ void Transceiver() {
+	 uint8_t index = 0;
+ 16a:	00 e0       	ldi	r16, 0x00	; 0
+	 char command[32] = {0};
+	 uint8_t start = 0;
+
+    while (1) {
+	    char c = USART0_readChar();
+ 16c:	64 d0       	rcall	.+200    	; 0x236 <USART0_readChar>
+
+	    if (!Status.warning) {
+ 16e:	90 91 82 3f 	lds	r25, 0x3F82	; 0x803f82 <__DATA_REGION_ORIGIN__+0x2>
+ 172:	91 11       	cpse	r25, r1
+ 174:	1c c0       	rjmp	.+56     	; 0x1ae <Transceiver+0x66>
+		    if (start == 1) {
+ 176:	11 30       	cpi	r17, 0x01	; 1
+ 178:	71 f4       	brne	.+28     	; 0x196 <Transceiver+0x4e>
+			    if (c == '>') {
+ 17a:	8e 33       	cpi	r24, 0x3E	; 62
+ 17c:	21 f4       	brne	.+8      	; 0x186 <Transceiver+0x3e>
+				    start = 0;
+				    executeCommand(command);
+ 17e:	ce 01       	movw	r24, r28
+ 180:	01 96       	adiw	r24, 0x01	; 1
+ 182:	90 df       	rcall	.-224    	; 0xa4 <executeCommand>
+				    index = 0;
+				    break;
+ 184:	21 c0       	rjmp	.+66     	; 0x1c8 <Transceiver+0x80>
+				    } else {
+				    command[index++] = c;
+ 186:	e1 e0       	ldi	r30, 0x01	; 1
+ 188:	f0 e0       	ldi	r31, 0x00	; 0
+ 18a:	ec 0f       	add	r30, r28
+ 18c:	fd 1f       	adc	r31, r29
+ 18e:	e0 0f       	add	r30, r16
+ 190:	f1 1d       	adc	r31, r1
+ 192:	80 83       	st	Z, r24
+ 194:	0f 5f       	subi	r16, 0xFF	; 255
+			    }
+		    }
+		    if (c == '<') {
+ 196:	8c 33       	cpi	r24, 0x3C	; 60
+ 198:	09 f4       	brne	.+2      	; 0x19c <Transceiver+0x54>
+			    start = 1;
+ 19a:	11 e0       	ldi	r17, 0x01	; 1
+		    }
+		    if (Status.error == 1) {
+ 19c:	80 91 80 3f 	lds	r24, 0x3F80	; 0x803f80 <__DATA_REGION_ORIGIN__>
+ 1a0:	81 30       	cpi	r24, 0x01	; 1
+ 1a2:	21 f7       	brne	.-56     	; 0x16c <Transceiver+0x24>
+			    Status.errorCounter = 0;
+ 1a4:	e0 e8       	ldi	r30, 0x80	; 128
+ 1a6:	ff e3       	ldi	r31, 0x3F	; 63
+ 1a8:	11 82       	std	Z+1, r1	; 0x01
+			    Status.error = 0;
+ 1aa:	10 82       	st	Z, r1
+ 1ac:	df cf       	rjmp	.-66     	; 0x16c <Transceiver+0x24>
+		    }
+		    } else {
+		    Status.warning = 0;
+ 1ae:	e0 e8       	ldi	r30, 0x80	; 128
+ 1b0:	ff e3       	ldi	r31, 0x3F	; 63
+ 1b2:	12 82       	std	Z+2, r1	; 0x02
+		    if (Status.errorCounter < CountForError) {
+ 1b4:	81 81       	ldd	r24, Z+1	; 0x01
+ 1b6:	8a 30       	cpi	r24, 0x0A	; 10
+ 1b8:	20 f4       	brcc	.+8      	; 0x1c2 <Transceiver+0x7a>
+			    Status.errorCounter += 1;
+ 1ba:	8f 5f       	subi	r24, 0xFF	; 255
+ 1bc:	80 93 81 3f 	sts	0x3F81, r24	; 0x803f81 <__DATA_REGION_ORIGIN__+0x1>
+ 1c0:	03 c0       	rjmp	.+6      	; 0x1c8 <Transceiver+0x80>
+			    } else {
+			    Status.error = 1;
+ 1c2:	81 e0       	ldi	r24, 0x01	; 1
+ 1c4:	80 93 80 3f 	sts	0x3F80, r24	; 0x803f80 <__DATA_REGION_ORIGIN__>
+		    }
+		    break;
+	    }
+    }
+ 1c8:	a0 96       	adiw	r28, 0x20	; 32
+ 1ca:	cd bf       	out	0x3d, r28	; 61
+ 1cc:	de bf       	out	0x3e, r29	; 62
+ 1ce:	df 91       	pop	r29
+ 1d0:	cf 91       	pop	r28
+ 1d2:	1f 91       	pop	r17
+ 1d4:	0f 91       	pop	r16
+ 1d6:	08 95       	ret
+
+000001d8 <USART0_init>:
+ * - Double-speed operation for higher communication speed.
+ * - Transmitter enabled, reception mode set for double-speed.
+ * - Asynchronous communication mode with 8 data bits, no parity, and 1 stop bit.
+ */
+void USART0_init() {
+    USART0.BAUD = (uint16_t)USART0_BAUD_RATE(500000); ///< Set baud rate to 0.25 Mbps.
+ 1d8:	e0 e0       	ldi	r30, 0x00	; 0
+ 1da:	f8 e0       	ldi	r31, 0x08	; 8
+ 1dc:	80 e4       	ldi	r24, 0x40	; 64
+ 1de:	91 e0       	ldi	r25, 0x01	; 1
+ 1e0:	80 87       	std	Z+8, r24	; 0x08
+ 1e2:	91 87       	std	Z+9, r25	; 0x09
+    USART0.CTRLB = USART_TXEN_bm | USART_RXEN_bm | USART_RXMODE_CLK2X_gc; ///< Enable transmitter, double-speed mode.
+ 1e4:	82 ec       	ldi	r24, 0xC2	; 194
+ 1e6:	86 83       	std	Z+6, r24	; 0x06
+    USART0.CTRLC = USART_CMODE_ASYNCHRONOUS_gc | ///< Configure for asynchronous mode.
+ 1e8:	83 e0       	ldi	r24, 0x03	; 3
+ 1ea:	87 83       	std	Z+7, r24	; 0x07
+ 1ec:	08 95       	ret
+
+000001ee <USART0_sendChar>:
+ * This function waits for the USART0 data register to be empty and then transmits the specified character.
+ * 
+ * @param c The character to be transmitted.
+ */
+void USART0_sendChar(char c) {
+    while (!(USART0.STATUS & USART_DREIF_bm)); ///< Wait for data register to be empty.
+ 1ee:	90 91 04 08 	lds	r25, 0x0804	; 0x800804 <__RODATA_PM_OFFSET__+0x7f8804>
+ 1f2:	95 ff       	sbrs	r25, 5
+ 1f4:	fc cf       	rjmp	.-8      	; 0x1ee <USART0_sendChar>
+    USART0.TXDATAL = c; ///< Transmit the character.
+ 1f6:	80 93 02 08 	sts	0x0802, r24	; 0x800802 <__RODATA_PM_OFFSET__+0x7f8802>
+ 1fa:	08 95       	ret
+
+000001fc <USART0_sendString>:
+ * 
+ * This function sends a string of characters one by one using the `USART0_sendChar` function.
+ * 
+ * @param str The string to be transmitted.
+ */
+void USART0_sendString(char *str) {
+ 1fc:	0f 93       	push	r16
+ 1fe:	1f 93       	push	r17
+ 200:	cf 93       	push	r28
+ 202:	df 93       	push	r29
+ 204:	8c 01       	movw	r16, r24
+    for (size_t i = 0; i < strlen(str); i++) {
+ 206:	c0 e0       	ldi	r28, 0x00	; 0
+ 208:	d0 e0       	ldi	r29, 0x00	; 0
+ 20a:	06 c0       	rjmp	.+12     	; 0x218 <USART0_sendString+0x1c>
+        USART0_sendChar(str[i]); ///< Send each character of the string.
+ 20c:	f8 01       	movw	r30, r16
+ 20e:	ec 0f       	add	r30, r28
+ 210:	fd 1f       	adc	r31, r29
+ 212:	80 81       	ld	r24, Z
+ 214:	ec df       	rcall	.-40     	; 0x1ee <USART0_sendChar>
+ * This function sends a string of characters one by one using the `USART0_sendChar` function.
+ * 
+ * @param str The string to be transmitted.
+ */
+void USART0_sendString(char *str) {
+    for (size_t i = 0; i < strlen(str); i++) {
+ 216:	21 96       	adiw	r28, 0x01	; 1
+ 218:	f8 01       	movw	r30, r16
+ 21a:	01 90       	ld	r0, Z+
+ 21c:	00 20       	and	r0, r0
+ 21e:	e9 f7       	brne	.-6      	; 0x21a <USART0_sendString+0x1e>
+ 220:	31 97       	sbiw	r30, 0x01	; 1
+ 222:	e0 1b       	sub	r30, r16
+ 224:	f1 0b       	sbc	r31, r17
+ 226:	ce 17       	cp	r28, r30
+ 228:	df 07       	cpc	r29, r31
+ 22a:	80 f3       	brcs	.-32     	; 0x20c <USART0_sendString+0x10>
+        USART0_sendChar(str[i]); ///< Send each character of the string.
+    }
+}
+ 22c:	df 91       	pop	r29
+ 22e:	cf 91       	pop	r28
+ 230:	1f 91       	pop	r17
+ 232:	0f 91       	pop	r16
+ 234:	08 95       	ret
+
+00000236 <USART0_readChar>:
+
+char USART0_readChar() {
+	USART0.STATUS = USART_RXCIF_bm; // Clear buffer before reading
+ 236:	80 e8       	ldi	r24, 0x80	; 128
+ 238:	80 93 04 08 	sts	0x0804, r24	; 0x800804 <__RODATA_PM_OFFSET__+0x7f8804>
+	uint32_t timeout_counter = TIMEOUT_COUNTER; // Set a timeout counter
+ 23c:	80 e2       	ldi	r24, 0x20	; 32
+ 23e:	91 ea       	ldi	r25, 0xA1	; 161
+ 240:	a7 e0       	ldi	r26, 0x07	; 7
+ 242:	b0 e0       	ldi	r27, 0x00	; 0
+	while (!(USART0.STATUS & USART_RXCIF_bm)) { // Wait for data to be received
+ 244:	08 c0       	rjmp	.+16     	; 0x256 <USART0_readChar+0x20>
+		if (--timeout_counter == 0) { // Timeout condition
+ 246:	01 97       	sbiw	r24, 0x01	; 1
+ 248:	a1 09       	sbc	r26, r1
+ 24a:	b1 09       	sbc	r27, r1
+ 24c:	21 f4       	brne	.+8      	; 0x256 <USART0_readChar+0x20>
+			Status.warning = 3; // Set warning if timeout occurs
+ 24e:	83 e0       	ldi	r24, 0x03	; 3
+ 250:	80 93 82 3f 	sts	0x3F82, r24	; 0x803f82 <__DATA_REGION_ORIGIN__+0x2>
+			break;
+ 254:	04 c0       	rjmp	.+8      	; 0x25e <USART0_readChar+0x28>
+}
+
+char USART0_readChar() {
+	USART0.STATUS = USART_RXCIF_bm; // Clear buffer before reading
+	uint32_t timeout_counter = TIMEOUT_COUNTER; // Set a timeout counter
+	while (!(USART0.STATUS & USART_RXCIF_bm)) { // Wait for data to be received
+ 256:	20 91 04 08 	lds	r18, 0x0804	; 0x800804 <__RODATA_PM_OFFSET__+0x7f8804>
+ 25a:	22 23       	and	r18, r18
+ 25c:	a4 f7       	brge	.-24     	; 0x246 <USART0_readChar+0x10>
+		if (--timeout_counter == 0) { // Timeout condition
+			Status.warning = 3; // Set warning if timeout occurs
+			break;
+		}
+	}
+	return USART0.RXDATAL; // Return received character
+ 25e:	80 91 00 08 	lds	r24, 0x0800	; 0x800800 <__RODATA_PM_OFFSET__+0x7f8800>
+}
+ 262:	08 95       	ret
+
+00000264 <strcat>:
+ 264:	fb 01       	movw	r30, r22
+ 266:	dc 01       	movw	r26, r24
+ 268:	0d 90       	ld	r0, X+
+ 26a:	00 20       	and	r0, r0
+ 26c:	e9 f7       	brne	.-6      	; 0x268 <strcat+0x4>
+ 26e:	11 97       	sbiw	r26, 0x01	; 1
+ 270:	01 90       	ld	r0, Z+
+ 272:	0d 92       	st	X+, r0
+ 274:	00 20       	and	r0, r0
+ 276:	e1 f7       	brne	.-8      	; 0x270 <strcat+0xc>
+ 278:	08 95       	ret
+
+0000027a <ccp_write_io>:
+ 27a:	dc 01       	movw	r26, r24
+ 27c:	28 ed       	ldi	r18, 0xD8	; 216
+ 27e:	20 93 34 00 	sts	0x0034, r18	; 0x800034 <__RODATA_PM_OFFSET__+0x7f8034>
+ 282:	6c 93       	st	X, r22
+ 284:	08 95       	ret
+
+00000286 <_exit>:
+ 286:	f8 94       	cli
+
+00000288 <__stop_program>:
+ 288:	ff cf       	rjmp	.-2      	; 0x288 <__stop_program>
