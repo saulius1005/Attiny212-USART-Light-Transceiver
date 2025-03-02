@@ -4,6 +4,8 @@
 
 CLK.c
 
+CRC.c
+
 GPIO.c
 
 main.c

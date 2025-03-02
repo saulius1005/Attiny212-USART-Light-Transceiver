@@ -22,6 +22,7 @@
 
 #include <avr/io.h>
 #include <stdio.h>       /**< Include standard I/O library for functions like printf. */
+#include <stdlib.h>
 #include <string.h>      /**< Include string library for handling string functions like strlen. */
 #include <util/delay.h>  /**< Include delay utilities for timing functions. */
 #include <avr/cpufunc.h> /**< Include AVR-specific functions like ccp_write_io. */
@@ -95,6 +96,10 @@ void USART0_sendString(char *str);
 char USART0_readChar();
 
 void Transceiver();
+
+uint64_t verify_crc8_cdma2000(uint64_t data_with_crc);
+
+uint8_t crc8_cdma2000(uint64_t data);
 
 
 #endif /* SETTINGS_H_ */

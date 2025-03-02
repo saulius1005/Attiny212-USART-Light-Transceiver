@@ -139,6 +139,9 @@
     <Compile Include="CLK.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="CRC.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="GPIO.c">
       <SubType>compile</SubType>
     </Compile>
