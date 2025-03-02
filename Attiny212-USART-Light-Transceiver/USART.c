@@ -59,7 +59,7 @@ char USART0_readChar() {
 	uint32_t timeout_counter = TIMEOUT_COUNTER; // Set a timeout counter
 	while (!(USART0.STATUS & USART_RXCIF_bm)) { // Wait for data to be received
 		if (--timeout_counter == 0) { // Timeout condition
-			Status.warning = 3; // Set warning if timeout occurs
+			Status.warning = 1; // Set warning if timeout occurs
 			break;
 		}
 	}

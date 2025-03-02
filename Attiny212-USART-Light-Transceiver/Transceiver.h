@@ -10,7 +10,7 @@
 #define TRANSCEIVER_H_
 
 #define CountForError 10
-#define TIMEOUT_COUNTER 500000 ///< Timeout counter value for operations
+#define TIMEOUT_COUNTER 40000 ///< Timeout counter value for operations
 
 typedef struct {
 	uint8_t error;     /**< Error flag (1 if an error occurs, 0 otherwise) */

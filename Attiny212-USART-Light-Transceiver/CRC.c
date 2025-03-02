@@ -26,7 +26,6 @@ const uint8_t crc8_table[256] = {
 };
 
 
-/*
 uint8_t crc8_cdma2000(uint64_t data) {
 	uint8_t crc = 0xFF;
 	size_t length = 0;
@@ -39,17 +38,8 @@ uint8_t crc8_cdma2000(uint64_t data) {
 		crc = crc8_table[crc ^ ((data >> (length * 8)) & 0xFF)];
 	}
 	return crc;
-}*/
-
-uint8_t crc8_cdma2000(uint64_t data) {
-	uint8_t crc = 0xFF;
-	size_t length = sizeof(data); // Naudojame fiksuotà 8 baitø dydá
-
-	while (length--) {
-		crc = crc8_table[crc ^ ((data >> (length * 8)) & 0xFF)];
-	}
-	return crc;
 }
+
 
 uint64_t verify_crc8_cdma2000(uint64_t data_with_crc) {
 	uint8_t expected_crc = data_with_crc & 0xFF;

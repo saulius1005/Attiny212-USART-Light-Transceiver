@@ -3,33 +3,33 @@ Attiny212-USART-Light-Transceiver.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00803f80  00803f80  000005c8  2**0
+  0 .data         00000000  00803f80  00803f80  000007a8  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000430  00000000  00000000  00000094  2**1
+  1 .text         00000612  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       00000104  00008430  00000430  000004c4  2**0
+  2 .rodata       00000102  00008612  00000612  000006a6  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .bss          00000003  00803f80  00803f80  000005c8  2**0
+  3 .bss          00000003  00803f80  00803f80  000007a8  2**0
                   ALLOC
-  4 .comment      00000030  00000000  00000000  000005c8  2**0
+  4 .comment      00000030  00000000  00000000  000007a8  2**0
                   CONTENTS, READONLY
-  5 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000005f8  2**2
+  5 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000007d8  2**2
                   CONTENTS, READONLY
-  6 .debug_aranges 00000120  00000000  00000000  00000638  2**3
+  6 .debug_aranges 00000140  00000000  00000000  00000818  2**3
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_info   0000293a  00000000  00000000  00000758  2**0
+  7 .debug_info   00002947  00000000  00000000  00000958  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 00001d41  00000000  00000000  00003092  2**0
+  8 .debug_abbrev 00001cc4  00000000  00000000  0000329f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   00000c07  00000000  00000000  00004dd3  2**0
+  9 .debug_line   00000cbe  00000000  00000000  00004f63  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_frame  00000268  00000000  00000000  000059dc  2**2
+ 10 .debug_frame  000002c4  00000000  00000000  00005c24  2**2
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    0000129b  00000000  00000000  00005c44  2**0
+ 11 .debug_str    00001260  00000000  00000000  00005ee8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    0000082d  00000000  00000000  00006edf  2**0
+ 12 .debug_loc    00000a9c  00000000  00000000  00007148  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_ranges 000000a0  00000000  00000000  0000770c  2**0
+ 13 .debug_ranges 000000c8  00000000  00000000  00007be4  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -83,8 +83,8 @@ Disassembly of section .text:
   4a:	a3 38       	cpi	r26, 0x83	; 131
   4c:	b2 07       	cpc	r27, r18
   4e:	e1 f7       	brne	.-8      	; 0x48 <.do_clear_bss_loop>
-  50:	9b d0       	rcall	.+310    	; 0x188 <main>
-  52:	ec c1       	rjmp	.+984    	; 0x42c <_exit>
+  50:	d1 d0       	rcall	.+418    	; 0x1f4 <main>
+  52:	dd c2       	rjmp	.+1466   	; 0x60e <_exit>
 
 00000054 <__bad_interrupt>:
   54:	d5 cf       	rjmp	.-86     	; 0x0 <__vectors>
@@ -99,18 +99,18 @@ void CLOCK_XOSCHF_clock_init()
   56:	63 e0       	ldi	r22, 0x03	; 3
   58:	80 e6       	ldi	r24, 0x60	; 96
   5a:	90 e0       	ldi	r25, 0x00	; 0
-  5c:	e1 d1       	rcall	.+962    	; 0x420 <ccp_write_io>
+  5c:	d2 d2       	rcall	.+1444   	; 0x602 <ccp_write_io>
 
 	/* Disable the main clock prescaler for full-speed operation. */
 	ccp_write_io((uint8_t *) &CLKCTRL.MCLKCTRLB, CLKCTRL_PDIV_2X_gc & ~CLKCTRL_PEN_bm);
   5e:	60 e0       	ldi	r22, 0x00	; 0
   60:	81 e6       	ldi	r24, 0x61	; 97
   62:	90 e0       	ldi	r25, 0x00	; 0
-  64:	dd d1       	rcall	.+954    	; 0x420 <ccp_write_io>
+  64:	ce d2       	rcall	.+1436   	; 0x602 <ccp_write_io>
 
 	/* Wait for system oscillator change to complete */
 	while (CLKCTRL.MCLKSTATUS & CLKCTRL_SOSC_bm)
-  66:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <crc8_table+0x7f7c33>
+  66:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <crc8_table+0x7f7a51>
   6a:	80 fd       	sbrc	r24, 0
   6c:	fc cf       	rjmp	.-8      	; 0x66 <CLOCK_XOSCHF_clock_init+0x10>
 	{};
@@ -119,10 +119,10 @@ void CLOCK_XOSCHF_clock_init()
   6e:	08 95       	ret
 
 00000070 <crc8_cdma2000>:
-		crc = crc8_table[crc ^ ((data >> (length * 8)) & 0xFF)];
-	}
-	return crc;
-}*/
+0xA7, 0x3C, 0x0A, 0x91, 0x66, 0xFD, 0xCB, 0x50,   0xBE, 0x25, 0x13, 0x88, 0x7F, 0xE4, 0xD2, 0x49,
+0x95, 0x0E, 0x38, 0xA3, 0x54, 0xCF, 0xF9, 0x62,   0x8C, 0x17, 0x21, 0xBA, 0x4D, 0xD6, 0xE0, 0x7B
+};
+
 
 uint8_t crc8_cdma2000(uint64_t data) {
   70:	2f 92       	push	r2
@@ -143,695 +143,1017 @@ uint8_t crc8_cdma2000(uint64_t data) {
   8e:	1f 93       	push	r17
   90:	cf 93       	push	r28
   92:	df 93       	push	r29
-  94:	32 2e       	mov	r3, r18
-  96:	43 2e       	mov	r4, r19
-  98:	54 2e       	mov	r5, r20
-  9a:	65 2e       	mov	r6, r21
-  9c:	76 2e       	mov	r7, r22
-  9e:	d7 2f       	mov	r29, r23
-  a0:	c8 2f       	mov	r28, r24
-  a2:	29 2e       	mov	r2, r25
+  94:	cd b7       	in	r28, 0x3d	; 61
+  96:	de b7       	in	r29, 0x3e	; 62
+  98:	2b 97       	sbiw	r28, 0x0b	; 11
+  9a:	cd bf       	out	0x3d, r28	; 61
+  9c:	de bf       	out	0x3e, r29	; 62
+  9e:	c2 2e       	mov	r12, r18
+  a0:	b3 2e       	mov	r11, r19
+  a2:	a4 2e       	mov	r10, r20
+  a4:	95 2e       	mov	r9, r21
+  a6:	86 2e       	mov	r8, r22
+  a8:	77 2e       	mov	r7, r23
+  aa:	68 2e       	mov	r6, r24
+  ac:	59 2e       	mov	r5, r25
 	uint8_t crc = 0xFF;
-	size_t length = sizeof(data); // Naudojame fiksuotà 8 baitø dydá
-  a4:	88 e0       	ldi	r24, 0x08	; 8
-  a6:	90 e0       	ldi	r25, 0x00	; 0
+	size_t length = 0;
+	uint64_t temp = data;
+  ae:	f2 2e       	mov	r15, r18
+  b0:	03 2f       	mov	r16, r19
+  b2:	14 2f       	mov	r17, r20
+  b4:	5a 87       	std	Y+10, r21	; 0x0a
+  b6:	69 83       	std	Y+1, r22	; 0x01
+  b8:	b7 2f       	mov	r27, r23
+  ba:	d8 2e       	mov	r13, r24
+  bc:	e9 2e       	mov	r14, r25
+};
+
+
+uint8_t crc8_cdma2000(uint64_t data) {
+	uint8_t crc = 0xFF;
+	size_t length = 0;
+  be:	e0 e0       	ldi	r30, 0x00	; 0
+  c0:	f0 e0       	ldi	r31, 0x00	; 0
+	uint64_t temp = data;
+	while (temp) {
+  c2:	13 c0       	rjmp	.+38     	; 0xea <__DATA_REGION_LENGTH__+0x6a>
+		length++;
+  c4:	31 96       	adiw	r30, 0x01	; 1
+		temp >>= 8;
+  c6:	2f 2d       	mov	r18, r15
+  c8:	30 2f       	mov	r19, r16
+  ca:	41 2f       	mov	r20, r17
+  cc:	5a 85       	ldd	r21, Y+10	; 0x0a
+  ce:	69 81       	ldd	r22, Y+1	; 0x01
+  d0:	7b 2f       	mov	r23, r27
+  d2:	8d 2d       	mov	r24, r13
+  d4:	9e 2d       	mov	r25, r14
+  d6:	08 e0       	ldi	r16, 0x08	; 8
+  d8:	6c d2       	rcall	.+1240   	; 0x5b2 <__lshrdi3>
+  da:	f2 2e       	mov	r15, r18
+  dc:	03 2f       	mov	r16, r19
+  de:	14 2f       	mov	r17, r20
+  e0:	5a 87       	std	Y+10, r21	; 0x0a
+  e2:	69 83       	std	Y+1, r22	; 0x01
+  e4:	b7 2f       	mov	r27, r23
+  e6:	d8 2e       	mov	r13, r24
+  e8:	e9 2e       	mov	r14, r25
+
+uint8_t crc8_cdma2000(uint64_t data) {
+	uint8_t crc = 0xFF;
+	size_t length = 0;
+	uint64_t temp = data;
+	while (temp) {
+  ea:	2f 2d       	mov	r18, r15
+  ec:	30 2f       	mov	r19, r16
+  ee:	41 2f       	mov	r20, r17
+  f0:	5a 85       	ldd	r21, Y+10	; 0x0a
+  f2:	69 81       	ldd	r22, Y+1	; 0x01
+  f4:	7b 2f       	mov	r23, r27
+  f6:	8d 2d       	mov	r24, r13
+  f8:	9e 2d       	mov	r25, r14
+  fa:	a0 e0       	ldi	r26, 0x00	; 0
+  fc:	76 d2       	rcall	.+1260   	; 0x5ea <__cmpdi2_s8>
+  fe:	11 f7       	brne	.-60     	; 0xc4 <__DATA_REGION_LENGTH__+0x44>
+ 100:	8f ef       	ldi	r24, 0xFF	; 255
+ 102:	8a 87       	std	Y+10, r24	; 0x0a
+ 104:	cb 86       	std	Y+11, r12	; 0x0b
+ 106:	b9 82       	std	Y+1, r11	; 0x01
+ 108:	4a 2c       	mov	r4, r10
+ 10a:	39 2c       	mov	r3, r9
+ 10c:	28 2c       	mov	r2, r8
+ 10e:	19 c0       	rjmp	.+50     	; 0x142 <__DATA_REGION_LENGTH__+0xc2>
+		length++;
+		temp >>= 8;
 	}
-	return crc;
-}*/
-
-uint8_t crc8_cdma2000(uint64_t data) {
-	uint8_t crc = 0xFF;
-  a8:	af ef       	ldi	r26, 0xFF	; 255
-	size_t length = sizeof(data); // Naudojame fiksuotà 8 baitø dydá
-
 	while (length--) {
-  aa:	18 c0       	rjmp	.+48     	; 0xdc <__DATA_REGION_LENGTH__+0x5c>
 		crc = crc8_table[crc ^ ((data >> (length * 8)) & 0xFF)];
-  ac:	8f 01       	movw	r16, r30
-  ae:	00 0f       	add	r16, r16
-  b0:	11 1f       	adc	r17, r17
-  b2:	00 0f       	add	r16, r16
-  b4:	11 1f       	adc	r17, r17
-  b6:	00 0f       	add	r16, r16
-  b8:	11 1f       	adc	r17, r17
-  ba:	23 2d       	mov	r18, r3
-  bc:	34 2d       	mov	r19, r4
-  be:	45 2d       	mov	r20, r5
-  c0:	56 2d       	mov	r21, r6
-  c2:	67 2d       	mov	r22, r7
-  c4:	7d 2f       	mov	r23, r29
-  c6:	8c 2f       	mov	r24, r28
-  c8:	92 2d       	mov	r25, r2
-  ca:	64 d1       	rcall	.+712    	; 0x394 <__lshrdi3>
-  cc:	8a 2e       	mov	r8, r26
-  ce:	82 26       	eor	r8, r18
-  d0:	91 2c       	mov	r9, r1
-  d2:	d4 01       	movw	r26, r8
-  d4:	a0 5d       	subi	r26, 0xD0	; 208
-  d6:	bb 47       	sbci	r27, 0x7B	; 123
-  d8:	ac 91       	ld	r26, X
-
-uint8_t crc8_cdma2000(uint64_t data) {
-	uint8_t crc = 0xFF;
-	size_t length = sizeof(data); // Naudojame fiksuotà 8 baitø dydá
-
+ 110:	8d 01       	movw	r16, r26
+ 112:	00 0f       	add	r16, r16
+ 114:	11 1f       	adc	r17, r17
+ 116:	00 0f       	add	r16, r16
+ 118:	11 1f       	adc	r17, r17
+ 11a:	00 0f       	add	r16, r16
+ 11c:	11 1f       	adc	r17, r17
+ 11e:	2b 85       	ldd	r18, Y+11	; 0x0b
+ 120:	39 81       	ldd	r19, Y+1	; 0x01
+ 122:	44 2d       	mov	r20, r4
+ 124:	53 2d       	mov	r21, r3
+ 126:	62 2d       	mov	r22, r2
+ 128:	77 2d       	mov	r23, r7
+ 12a:	86 2d       	mov	r24, r6
+ 12c:	95 2d       	mov	r25, r5
+ 12e:	41 d2       	rcall	.+1154   	; 0x5b2 <__lshrdi3>
+ 130:	8a 84       	ldd	r8, Y+10	; 0x0a
+ 132:	82 26       	eor	r8, r18
+ 134:	91 2c       	mov	r9, r1
+ 136:	f4 01       	movw	r30, r8
+ 138:	ee 5e       	subi	r30, 0xEE	; 238
+ 13a:	f9 47       	sbci	r31, 0x79	; 121
+ 13c:	80 81       	ld	r24, Z
+ 13e:	8a 87       	std	Y+10, r24	; 0x0a
+	uint64_t temp = data;
+	while (temp) {
+		length++;
+		temp >>= 8;
+	}
 	while (length--) {
-  da:	cf 01       	movw	r24, r30
-  dc:	fc 01       	movw	r30, r24
-  de:	31 97       	sbiw	r30, 0x01	; 1
-  e0:	89 2b       	or	r24, r25
-  e2:	21 f7       	brne	.-56     	; 0xac <__DATA_REGION_LENGTH__+0x2c>
+ 140:	fd 01       	movw	r30, r26
+ 142:	df 01       	movw	r26, r30
+ 144:	11 97       	sbiw	r26, 0x01	; 1
+ 146:	ef 2b       	or	r30, r31
+ 148:	19 f7       	brne	.-58     	; 0x110 <__DATA_REGION_LENGTH__+0x90>
+ 14a:	8a 85       	ldd	r24, Y+10	; 0x0a
 		crc = crc8_table[crc ^ ((data >> (length * 8)) & 0xFF)];
 	}
 	return crc;
 }
-  e4:	8a 2f       	mov	r24, r26
-  e6:	df 91       	pop	r29
-  e8:	cf 91       	pop	r28
-  ea:	1f 91       	pop	r17
-  ec:	0f 91       	pop	r16
-  ee:	ff 90       	pop	r15
-  f0:	ef 90       	pop	r14
-  f2:	df 90       	pop	r13
-  f4:	cf 90       	pop	r12
-  f6:	bf 90       	pop	r11
-  f8:	af 90       	pop	r10
-  fa:	9f 90       	pop	r9
-  fc:	8f 90       	pop	r8
-  fe:	7f 90       	pop	r7
- 100:	6f 90       	pop	r6
- 102:	5f 90       	pop	r5
- 104:	4f 90       	pop	r4
- 106:	3f 90       	pop	r3
- 108:	2f 90       	pop	r2
- 10a:	08 95       	ret
+ 14c:	2b 96       	adiw	r28, 0x0b	; 11
+ 14e:	cd bf       	out	0x3d, r28	; 61
+ 150:	de bf       	out	0x3e, r29	; 62
+ 152:	df 91       	pop	r29
+ 154:	cf 91       	pop	r28
+ 156:	1f 91       	pop	r17
+ 158:	0f 91       	pop	r16
+ 15a:	ff 90       	pop	r15
+ 15c:	ef 90       	pop	r14
+ 15e:	df 90       	pop	r13
+ 160:	cf 90       	pop	r12
+ 162:	bf 90       	pop	r11
+ 164:	af 90       	pop	r10
+ 166:	9f 90       	pop	r9
+ 168:	8f 90       	pop	r8
+ 16a:	7f 90       	pop	r7
+ 16c:	6f 90       	pop	r6
+ 16e:	5f 90       	pop	r5
+ 170:	4f 90       	pop	r4
+ 172:	3f 90       	pop	r3
+ 174:	2f 90       	pop	r2
+ 176:	08 95       	ret
 
-0000010c <verify_crc8_cdma2000>:
+00000178 <verify_crc8_cdma2000>:
+
 
 uint64_t verify_crc8_cdma2000(uint64_t data_with_crc) {
- 10c:	bf 92       	push	r11
- 10e:	cf 92       	push	r12
- 110:	df 92       	push	r13
- 112:	ef 92       	push	r14
- 114:	ff 92       	push	r15
- 116:	0f 93       	push	r16
- 118:	1f 93       	push	r17
- 11a:	cf 93       	push	r28
- 11c:	df 93       	push	r29
- 11e:	b2 2e       	mov	r11, r18
+ 178:	bf 92       	push	r11
+ 17a:	cf 92       	push	r12
+ 17c:	df 92       	push	r13
+ 17e:	ef 92       	push	r14
+ 180:	ff 92       	push	r15
+ 182:	0f 93       	push	r16
+ 184:	1f 93       	push	r17
+ 186:	cf 93       	push	r28
+ 188:	df 93       	push	r29
+ 18a:	b2 2e       	mov	r11, r18
 	uint8_t expected_crc = data_with_crc & 0xFF;
 	uint64_t data = data_with_crc >> 8;
- 120:	08 e0       	ldi	r16, 0x08	; 8
- 122:	38 d1       	rcall	.+624    	; 0x394 <__lshrdi3>
- 124:	c2 2e       	mov	r12, r18
- 126:	d3 2e       	mov	r13, r19
- 128:	e4 2e       	mov	r14, r20
- 12a:	f5 2e       	mov	r15, r21
- 12c:	06 2f       	mov	r16, r22
- 12e:	17 2f       	mov	r17, r23
- 130:	d8 2f       	mov	r29, r24
- 132:	c9 2f       	mov	r28, r25
+ 18c:	08 e0       	ldi	r16, 0x08	; 8
+ 18e:	11 d2       	rcall	.+1058   	; 0x5b2 <__lshrdi3>
+ 190:	c2 2e       	mov	r12, r18
+ 192:	d3 2e       	mov	r13, r19
+ 194:	e4 2e       	mov	r14, r20
+ 196:	f5 2e       	mov	r15, r21
+ 198:	06 2f       	mov	r16, r22
+ 19a:	17 2f       	mov	r17, r23
+ 19c:	d8 2f       	mov	r29, r24
+ 19e:	c9 2f       	mov	r28, r25
 	if (crc8_cdma2000(data) == expected_crc) {
- 134:	9d df       	rcall	.-198    	; 0x70 <crc8_cdma2000>
- 136:	b8 16       	cp	r11, r24
- 138:	49 f0       	breq	.+18     	; 0x14c <verify_crc8_cdma2000+0x40>
+ 1a0:	67 df       	rcall	.-306    	; 0x70 <crc8_cdma2000>
+ 1a2:	b8 16       	cp	r11, r24
+ 1a4:	49 f0       	breq	.+18     	; 0x1b8 <verify_crc8_cdma2000+0x40>
 		return data;
 	}
 	return 0;
- 13a:	20 e0       	ldi	r18, 0x00	; 0
- 13c:	30 e0       	ldi	r19, 0x00	; 0
- 13e:	40 e0       	ldi	r20, 0x00	; 0
- 140:	50 e0       	ldi	r21, 0x00	; 0
- 142:	60 e0       	ldi	r22, 0x00	; 0
- 144:	70 e0       	ldi	r23, 0x00	; 0
- 146:	80 e0       	ldi	r24, 0x00	; 0
- 148:	90 e0       	ldi	r25, 0x00	; 0
- 14a:	08 c0       	rjmp	.+16     	; 0x15c <verify_crc8_cdma2000+0x50>
+ 1a6:	20 e0       	ldi	r18, 0x00	; 0
+ 1a8:	30 e0       	ldi	r19, 0x00	; 0
+ 1aa:	40 e0       	ldi	r20, 0x00	; 0
+ 1ac:	50 e0       	ldi	r21, 0x00	; 0
+ 1ae:	60 e0       	ldi	r22, 0x00	; 0
+ 1b0:	70 e0       	ldi	r23, 0x00	; 0
+ 1b2:	80 e0       	ldi	r24, 0x00	; 0
+ 1b4:	90 e0       	ldi	r25, 0x00	; 0
+ 1b6:	08 c0       	rjmp	.+16     	; 0x1c8 <verify_crc8_cdma2000+0x50>
 
 uint64_t verify_crc8_cdma2000(uint64_t data_with_crc) {
 	uint8_t expected_crc = data_with_crc & 0xFF;
 	uint64_t data = data_with_crc >> 8;
 	if (crc8_cdma2000(data) == expected_crc) {
 		return data;
- 14c:	2c 2d       	mov	r18, r12
- 14e:	3d 2d       	mov	r19, r13
- 150:	4e 2d       	mov	r20, r14
- 152:	5f 2d       	mov	r21, r15
- 154:	60 2f       	mov	r22, r16
- 156:	71 2f       	mov	r23, r17
- 158:	8d 2f       	mov	r24, r29
- 15a:	9c 2f       	mov	r25, r28
+ 1b8:	2c 2d       	mov	r18, r12
+ 1ba:	3d 2d       	mov	r19, r13
+ 1bc:	4e 2d       	mov	r20, r14
+ 1be:	5f 2d       	mov	r21, r15
+ 1c0:	60 2f       	mov	r22, r16
+ 1c2:	71 2f       	mov	r23, r17
+ 1c4:	8d 2f       	mov	r24, r29
+ 1c6:	9c 2f       	mov	r25, r28
 	}
 	return 0;
- 15c:	df 91       	pop	r29
- 15e:	cf 91       	pop	r28
- 160:	1f 91       	pop	r17
- 162:	0f 91       	pop	r16
- 164:	ff 90       	pop	r15
- 166:	ef 90       	pop	r14
- 168:	df 90       	pop	r13
- 16a:	cf 90       	pop	r12
- 16c:	bf 90       	pop	r11
- 16e:	08 95       	ret
+ 1c8:	df 91       	pop	r29
+ 1ca:	cf 91       	pop	r28
+ 1cc:	1f 91       	pop	r17
+ 1ce:	0f 91       	pop	r16
+ 1d0:	ff 90       	pop	r15
+ 1d2:	ef 90       	pop	r14
+ 1d4:	df 90       	pop	r13
+ 1d6:	cf 90       	pop	r12
+ 1d8:	bf 90       	pop	r11
+ 1da:	08 95       	ret
 
-00000170 <GPIO_init>:
+000001dc <GPIO_init>:
  */ 
  #include "Settings.h"
 
 void GPIO_init(){
 
     PORTA.DIRSET = PIN6_bm; // Set PA6 as UART Transceiver TX output
- 170:	e0 e0       	ldi	r30, 0x00	; 0
- 172:	f4 e0       	ldi	r31, 0x04	; 4
- 174:	80 e4       	ldi	r24, 0x40	; 64
- 176:	81 83       	std	Z+1, r24	; 0x01
+ 1dc:	e0 e0       	ldi	r30, 0x00	; 0
+ 1de:	f4 e0       	ldi	r31, 0x04	; 4
+ 1e0:	80 e4       	ldi	r24, 0x40	; 64
+ 1e2:	81 83       	std	Z+1, r24	; 0x01
     PORTA.PIN6CTRL = PORT_PULLUPEN_bm; //
- 178:	88 e0       	ldi	r24, 0x08	; 8
- 17a:	86 8b       	std	Z+22, r24	; 0x16
+ 1e4:	88 e0       	ldi	r24, 0x08	; 8
+ 1e6:	86 8b       	std	Z+22, r24	; 0x16
     
     PORTA.DIRCLR = PIN1_bm | PIN2_bm | PIN7_bm; // Set PA1 as Xmax input, Set PA2 as Xmin input, Set PA7 as Light UART RX input
- 17c:	96 e8       	ldi	r25, 0x86	; 134
- 17e:	92 83       	std	Z+2, r25	; 0x02
+ 1e8:	96 e8       	ldi	r25, 0x86	; 134
+ 1ea:	92 83       	std	Z+2, r25	; 0x02
     PORTA.PIN1CTRL = PORT_PULLUPEN_bm; //
- 180:	81 8b       	std	Z+17, r24	; 0x11
+ 1ec:	81 8b       	std	Z+17, r24	; 0x11
 	PORTA.PIN2CTRL = PORT_PULLUPEN_bm; //
- 182:	82 8b       	std	Z+18, r24	; 0x12
+ 1ee:	82 8b       	std	Z+18, r24	; 0x12
 	PORTA.PIN7CTRL = PORT_PULLUPEN_bm; //
- 184:	87 8b       	std	Z+23, r24	; 0x17
- 186:	08 95       	ret
+ 1f0:	87 8b       	std	Z+23, r24	; 0x17
+ 1f2:	08 95       	ret
 
-00000188 <main>:
+000001f4 <main>:
 #include "Settings.h"
 
 
 int main(void)
 {
 	CLOCK_XOSCHF_clock_init();
- 188:	66 df       	rcall	.-308    	; 0x56 <CLOCK_XOSCHF_clock_init>
+ 1f4:	30 df       	rcall	.-416    	; 0x56 <CLOCK_XOSCHF_clock_init>
 	//CLOCK_INHF_clock_init();
 	GPIO_init();
- 18a:	f2 df       	rcall	.-28     	; 0x170 <GPIO_init>
+ 1f6:	f2 df       	rcall	.-28     	; 0x1dc <GPIO_init>
 	USART0_init();
- 18c:	a2 d0       	rcall	.+324    	; 0x2d2 <USART0_init>
+ 1f8:	7b d1       	rcall	.+758    	; 0x4f0 <USART0_init>
 
     while (1) 
     {
 		Transceiver();
- 18e:	59 d0       	rcall	.+178    	; 0x242 <Transceiver>
-	#else
-		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-	#endif
+ 1fa:	c2 d0       	rcall	.+388    	; 0x380 <Transceiver>
+ 1fc:	fe cf       	rjmp	.-4      	; 0x1fa <main+0x6>
 
-	__builtin_avr_delay_cycles(__ticks_dc);
- 190:	2f e7       	ldi	r18, 0x7F	; 127
- 192:	8a e1       	ldi	r24, 0x1A	; 26
- 194:	96 e0       	ldi	r25, 0x06	; 6
- 196:	21 50       	subi	r18, 0x01	; 1
- 198:	80 40       	sbci	r24, 0x00	; 0
- 19a:	90 40       	sbci	r25, 0x00	; 0
- 19c:	e1 f7       	brne	.-8      	; 0x196 <main+0xe>
- 19e:	00 c0       	rjmp	.+0      	; 0x1a0 <main+0x18>
- 1a0:	00 00       	nop
- 1a2:	f5 cf       	rjmp	.-22     	; 0x18e <main+0x6>
+000001fe <countLeadingZeros>:
+ *  Author: Saulius
+ */ 
+ #include "Settings.h"
+ #include "TransceiverVar.h"
 
-000001a4 <hexStringToUint64>:
-	 }
-	 if (ptr == out) { // Jei reikðmë buvo 0
-		 *ptr++ = '0';
-	 }
-	 *ptr = '\0'; // Pridedame string'o pabaigos simbolá
- }
- 1a4:	0f 93       	push	r16
- 1a6:	dc 01       	movw	r26, r24
- 1a8:	20 e0       	ldi	r18, 0x00	; 0
- 1aa:	30 e0       	ldi	r19, 0x00	; 0
- 1ac:	40 e0       	ldi	r20, 0x00	; 0
- 1ae:	50 e0       	ldi	r21, 0x00	; 0
- 1b0:	60 e0       	ldi	r22, 0x00	; 0
- 1b2:	70 e0       	ldi	r23, 0x00	; 0
- 1b4:	80 e0       	ldi	r24, 0x00	; 0
- 1b6:	90 e0       	ldi	r25, 0x00	; 0
- 1b8:	15 c0       	rjmp	.+42     	; 0x1e4 <hexStringToUint64+0x40>
- 1ba:	f0 ed       	ldi	r31, 0xD0	; 208
- 1bc:	fe 0f       	add	r31, r30
- 1be:	fa 30       	cpi	r31, 0x0A	; 10
- 1c0:	68 f0       	brcs	.+26     	; 0x1dc <hexStringToUint64+0x38>
- 1c2:	ff eb       	ldi	r31, 0xBF	; 191
- 1c4:	fe 0f       	add	r31, r30
- 1c6:	f6 30       	cpi	r31, 0x06	; 6
- 1c8:	18 f4       	brcc	.+6      	; 0x1d0 <hexStringToUint64+0x2c>
- 1ca:	f9 ec       	ldi	r31, 0xC9	; 201
- 1cc:	fe 0f       	add	r31, r30
- 1ce:	06 c0       	rjmp	.+12     	; 0x1dc <hexStringToUint64+0x38>
- 1d0:	ff e9       	ldi	r31, 0x9F	; 159
- 1d2:	fe 0f       	add	r31, r30
- 1d4:	f6 30       	cpi	r31, 0x06	; 6
- 1d6:	48 f4       	brcc	.+18     	; 0x1ea <hexStringToUint64+0x46>
- 1d8:	f9 ea       	ldi	r31, 0xA9	; 169
- 1da:	fe 0f       	add	r31, r30
- 1dc:	04 e0       	ldi	r16, 0x04	; 4
- 1de:	bf d0       	rcall	.+382    	; 0x35e <__ashldi3>
- 1e0:	2f 2b       	or	r18, r31
- 1e2:	11 96       	adiw	r26, 0x01	; 1
- 1e4:	ec 91       	ld	r30, X
- 1e6:	e1 11       	cpse	r30, r1
- 1e8:	e8 cf       	rjmp	.-48     	; 0x1ba <hexStringToUint64+0x16>
- 1ea:	0f 91       	pop	r16
- 1ec:	08 95       	ret
+size_t countLeadingZeros(char *command) {
+ 1fe:	ac 01       	movw	r20, r24
+	size_t count;
+	for (count = 0; count < 16 && command[count] == '0'; count++);
+ 200:	80 e0       	ldi	r24, 0x00	; 0
+ 202:	90 e0       	ldi	r25, 0x00	; 0
+ 204:	01 c0       	rjmp	.+2      	; 0x208 <countLeadingZeros+0xa>
+ 206:	01 96       	adiw	r24, 0x01	; 1
+ 208:	80 31       	cpi	r24, 0x10	; 16
+ 20a:	91 05       	cpc	r25, r1
+ 20c:	30 f4       	brcc	.+12     	; 0x21a <countLeadingZeros+0x1c>
+ 20e:	fa 01       	movw	r30, r20
+ 210:	e8 0f       	add	r30, r24
+ 212:	f9 1f       	adc	r31, r25
+ 214:	20 81       	ld	r18, Z
+ 216:	20 33       	cpi	r18, 0x30	; 48
+ 218:	b1 f3       	breq	.-20     	; 0x206 <countLeadingZeros+0x8>
+	return count;
+}
+ 21a:	08 95       	ret
 
-000001ee <executeCommand>:
+0000021c <executeCommand>:
 
- void executeCommand(char *command) {
- 1ee:	cf 93       	push	r28
- 1f0:	df 93       	push	r29
- 1f2:	00 d0       	rcall	.+0      	; 0x1f4 <executeCommand+0x6>
- 1f4:	00 d0       	rcall	.+0      	; 0x1f6 <executeCommand+0x8>
- 1f6:	cd b7       	in	r28, 0x3d	; 61
- 1f8:	de b7       	in	r29, 0x3e	; 62
-	
+
+void executeCommand(char *command) {
+ 21c:	6f 92       	push	r6
+ 21e:	7f 92       	push	r7
+ 220:	8f 92       	push	r8
+ 222:	9f 92       	push	r9
+ 224:	af 92       	push	r10
+ 226:	bf 92       	push	r11
+ 228:	cf 92       	push	r12
+ 22a:	df 92       	push	r13
+ 22c:	ef 92       	push	r14
+ 22e:	ff 92       	push	r15
+ 230:	0f 93       	push	r16
+ 232:	1f 93       	push	r17
+ 234:	cf 93       	push	r28
+ 236:	df 93       	push	r29
+ 238:	cd b7       	in	r28, 0x3d	; 61
+ 23a:	de b7       	in	r29, 0x3e	; 62
+ 23c:	66 97       	sbiw	r28, 0x16	; 22
+ 23e:	cd bf       	out	0x3d, r28	; 61
+ 240:	de bf       	out	0x3e, r29	; 62
+ 242:	6c 01       	movw	r12, r24
+	char newData[22] = {'<', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '>', '\r', '\n'};
+ 244:	fe 01       	movw	r30, r28
+ 246:	31 96       	adiw	r30, 0x01	; 1
+ 248:	86 e1       	ldi	r24, 0x16	; 22
+ 24a:	df 01       	movw	r26, r30
+ 24c:	1d 92       	st	X+, r1
+ 24e:	8a 95       	dec	r24
+ 250:	e9 f7       	brne	.-6      	; 0x24c <executeCommand+0x30>
+ 252:	8c e3       	ldi	r24, 0x3C	; 60
+ 254:	89 83       	std	Y+1, r24	; 0x01
+ 256:	80 e3       	ldi	r24, 0x30	; 48
+ 258:	8a 83       	std	Y+2, r24	; 0x02
+ 25a:	8b 83       	std	Y+3, r24	; 0x03
+ 25c:	8c 83       	std	Y+4, r24	; 0x04
+ 25e:	8d 83       	std	Y+5, r24	; 0x05
+ 260:	8e 83       	std	Y+6, r24	; 0x06
+ 262:	8f 83       	std	Y+7, r24	; 0x07
+ 264:	88 87       	std	Y+8, r24	; 0x08
+ 266:	89 87       	std	Y+9, r24	; 0x09
+ 268:	8a 87       	std	Y+10, r24	; 0x0a
+ 26a:	8b 87       	std	Y+11, r24	; 0x0b
+ 26c:	8c 87       	std	Y+12, r24	; 0x0c
+ 26e:	8d 87       	std	Y+13, r24	; 0x0d
+ 270:	8e 87       	std	Y+14, r24	; 0x0e
+ 272:	8f 87       	std	Y+15, r24	; 0x0f
+ 274:	88 8b       	std	Y+16, r24	; 0x10
+ 276:	89 8b       	std	Y+17, r24	; 0x11
+ 278:	8a 8b       	std	Y+18, r24	; 0x12
+ 27a:	8e e3       	ldi	r24, 0x3E	; 62
+ 27c:	8b 8b       	std	Y+19, r24	; 0x13
+ 27e:	8d e0       	ldi	r24, 0x0D	; 13
+ 280:	8c 8b       	std	Y+20, r24	; 0x14
+ 282:	8a e0       	ldi	r24, 0x0A	; 10
+ 284:	8d 8b       	std	Y+21, r24	; 0x15
+	uint8_t x = (!(PORTA.IN & PIN1_bm)) | ((!(PORTA.IN & PIN2_bm)) << 1); //checking X min and max values (checking PA1 and PA2 values and shifting those to get 0,1,2,3 values instead of 0,2,4,6)
+ 286:	e0 e0       	ldi	r30, 0x00	; 0
+ 288:	f4 e0       	ldi	r31, 0x04	; 4
+ 28a:	20 85       	ldd	r18, Z+8	; 0x08
+ 28c:	26 95       	lsr	r18
+ 28e:	81 e0       	ldi	r24, 0x01	; 1
+ 290:	28 27       	eor	r18, r24
+ 292:	21 70       	andi	r18, 0x01	; 1
+ 294:	80 85       	ldd	r24, Z+8	; 0x08
+ 296:	82 fd       	sbrc	r24, 2
+ 298:	02 c0       	rjmp	.+4      	; 0x29e <executeCommand+0x82>
+ 29a:	82 e0       	ldi	r24, 0x02	; 2
+ 29c:	01 c0       	rjmp	.+2      	; 0x2a0 <executeCommand+0x84>
+ 29e:	80 e0       	ldi	r24, 0x00	; 0
+ 2a0:	f8 2e       	mov	r15, r24
+ 2a2:	f2 2a       	or	r15, r18
+	if(!Status.error){
+ 2a4:	80 91 80 3f 	lds	r24, 0x3F80	; 0x803f80 <__DATA_REGION_ORIGIN__>
+ 2a8:	81 11       	cpse	r24, r1
+ 2aa:	35 c0       	rjmp	.+106    	; 0x316 <executeCommand+0xfa>
 	uint64_t a = verify_crc8_cdma2000(hexStringToUint64(command));
- 1fa:	d4 df       	rcall	.-88     	; 0x1a4 <hexStringToUint64>
- 1fc:	87 df       	rcall	.-242    	; 0x10c <verify_crc8_cdma2000>
-	char buffer[20]; // 16 simboliø + null terminatorius
-	uint8_t x = 0;
+ 2ac:	c6 01       	movw	r24, r12
+ 2ae:	bb d0       	rcall	.+374    	; 0x426 <hexStringToUint64>
+ 2b0:	63 df       	rcall	.-314    	; 0x178 <verify_crc8_cdma2000>
+		a = (a << 4) | x; //shift data and add X value
+ 2b2:	04 e0       	ldi	r16, 0x04	; 4
+ 2b4:	63 d1       	rcall	.+710    	; 0x57c <__ashldi3>
+ 2b6:	63 2e       	mov	r6, r19
+ 2b8:	74 2e       	mov	r7, r20
+ 2ba:	85 2e       	mov	r8, r21
+ 2bc:	96 2e       	mov	r9, r22
+ 2be:	a7 2e       	mov	r10, r23
+ 2c0:	b8 2e       	mov	r11, r24
+ 2c2:	e9 2e       	mov	r14, r25
+ 2c4:	f2 2a       	or	r15, r18
+		uint64ToHex(a, newData +1 + countLeadingZeros(command)); //fill new data starting fom 1 symbol
+ 2c6:	c6 01       	movw	r24, r12
+ 2c8:	9a df       	rcall	.-204    	; 0x1fe <countLeadingZeros>
+ 2ca:	01 96       	adiw	r24, 0x01	; 1
+ 2cc:	01 e0       	ldi	r16, 0x01	; 1
+ 2ce:	10 e0       	ldi	r17, 0x00	; 0
+ 2d0:	0c 0f       	add	r16, r28
+ 2d2:	1d 1f       	adc	r17, r29
+ 2d4:	08 0f       	add	r16, r24
+ 2d6:	19 1f       	adc	r17, r25
+ 2d8:	2f 2d       	mov	r18, r15
+ 2da:	36 2d       	mov	r19, r6
+ 2dc:	47 2d       	mov	r20, r7
+ 2de:	58 2d       	mov	r21, r8
+ 2e0:	69 2d       	mov	r22, r9
+ 2e2:	7a 2d       	mov	r23, r10
+ 2e4:	8b 2d       	mov	r24, r11
+ 2e6:	9e 2d       	mov	r25, r14
+ 2e8:	c3 d0       	rcall	.+390    	; 0x470 <uint64ToHex>
+		uint64ToHex(crc8_cdma2000(a), newData + 16); //add new data crc value starting fom 16 symbol
+ 2ea:	2f 2d       	mov	r18, r15
+ 2ec:	36 2d       	mov	r19, r6
+ 2ee:	47 2d       	mov	r20, r7
+ 2f0:	58 2d       	mov	r21, r8
+ 2f2:	69 2d       	mov	r22, r9
+ 2f4:	7a 2d       	mov	r23, r10
+ 2f6:	8b 2d       	mov	r24, r11
+ 2f8:	9e 2d       	mov	r25, r14
+ 2fa:	ba de       	rcall	.-652    	; 0x70 <crc8_cdma2000>
+ 2fc:	8e 01       	movw	r16, r28
+ 2fe:	0f 5e       	subi	r16, 0xEF	; 239
+ 300:	1f 4f       	sbci	r17, 0xFF	; 255
+ 302:	28 2f       	mov	r18, r24
+ 304:	30 e0       	ldi	r19, 0x00	; 0
+ 306:	40 e0       	ldi	r20, 0x00	; 0
+ 308:	50 e0       	ldi	r21, 0x00	; 0
+ 30a:	60 e0       	ldi	r22, 0x00	; 0
+ 30c:	70 e0       	ldi	r23, 0x00	; 0
+ 30e:	80 e0       	ldi	r24, 0x00	; 0
+ 310:	90 e0       	ldi	r25, 0x00	; 0
+ 312:	ae d0       	rcall	.+348    	; 0x470 <uint64ToHex>
+ 314:	20 c0       	rjmp	.+64     	; 0x356 <executeCommand+0x13a>
+	}
+	else{// if error active sending only x value with calculated crc it can be: 0xff if x=0x00 (returns first crc8/cmda2000 value), 0xe0 x=0x01, 0xd6 x=0x02, 0x4d x=0x03 (impossible value but still calculated for later easier fault detection (expl.: short circuit))
+		uint64ToHex(x, newData + 15);
+ 316:	8e 01       	movw	r16, r28
+ 318:	00 5f       	subi	r16, 0xF0	; 240
+ 31a:	1f 4f       	sbci	r17, 0xFF	; 255
+ 31c:	2f 2d       	mov	r18, r15
+ 31e:	30 e0       	ldi	r19, 0x00	; 0
+ 320:	40 e0       	ldi	r20, 0x00	; 0
+ 322:	50 e0       	ldi	r21, 0x00	; 0
+ 324:	60 e0       	ldi	r22, 0x00	; 0
+ 326:	70 e0       	ldi	r23, 0x00	; 0
+ 328:	80 e0       	ldi	r24, 0x00	; 0
+ 32a:	90 e0       	ldi	r25, 0x00	; 0
+ 32c:	a1 d0       	rcall	.+322    	; 0x470 <uint64ToHex>
+		uint64ToHex(crc8_cdma2000(x), newData + 16);
+ 32e:	2f 2d       	mov	r18, r15
+ 330:	30 e0       	ldi	r19, 0x00	; 0
+ 332:	40 e0       	ldi	r20, 0x00	; 0
+ 334:	50 e0       	ldi	r21, 0x00	; 0
+ 336:	60 e0       	ldi	r22, 0x00	; 0
+ 338:	70 e0       	ldi	r23, 0x00	; 0
+ 33a:	80 e0       	ldi	r24, 0x00	; 0
+ 33c:	90 e0       	ldi	r25, 0x00	; 0
+ 33e:	98 de       	rcall	.-720    	; 0x70 <crc8_cdma2000>
+ 340:	0f 5f       	subi	r16, 0xFF	; 255
+ 342:	1f 4f       	sbci	r17, 0xFF	; 255
+ 344:	28 2f       	mov	r18, r24
+ 346:	30 e0       	ldi	r19, 0x00	; 0
+ 348:	40 e0       	ldi	r20, 0x00	; 0
+ 34a:	50 e0       	ldi	r21, 0x00	; 0
+ 34c:	60 e0       	ldi	r22, 0x00	; 0
+ 34e:	70 e0       	ldi	r23, 0x00	; 0
+ 350:	80 e0       	ldi	r24, 0x00	; 0
+ 352:	90 e0       	ldi	r25, 0x00	; 0
+ 354:	8d d0       	rcall	.+282    	; 0x470 <uint64ToHex>
+	}
+	USART0_sendString(newData);
+ 356:	ce 01       	movw	r24, r28
+ 358:	01 96       	adiw	r24, 0x01	; 1
+ 35a:	dc d0       	rcall	.+440    	; 0x514 <USART0_sendString>
+}
+ 35c:	66 96       	adiw	r28, 0x16	; 22
+ 35e:	cd bf       	out	0x3d, r28	; 61
+ 360:	de bf       	out	0x3e, r29	; 62
+ 362:	df 91       	pop	r29
+ 364:	cf 91       	pop	r28
+ 366:	1f 91       	pop	r17
+ 368:	0f 91       	pop	r16
+ 36a:	ff 90       	pop	r15
+ 36c:	ef 90       	pop	r14
+ 36e:	df 90       	pop	r13
+ 370:	cf 90       	pop	r12
+ 372:	bf 90       	pop	r11
+ 374:	af 90       	pop	r10
+ 376:	9f 90       	pop	r9
+ 378:	8f 90       	pop	r8
+ 37a:	7f 90       	pop	r7
+ 37c:	6f 90       	pop	r6
+ 37e:	08 95       	ret
 
-	if(!(PORTA.IN & PIN1_bm))
- 1fe:	80 91 08 04 	lds	r24, 0x0408	; 0x800408 <crc8_table+0x7f7fd8>
- 202:	81 fd       	sbrc	r24, 1
-		x=4;
-	else if(!(PORTA.IN & PIN2_bm))
- 204:	80 91 08 04 	lds	r24, 0x0408	; 0x800408 <crc8_table+0x7f7fd8>
-	x=8;
-	a = a+16;	 
-	//uint64ToHex(a, buffer);
-	//USART0_sendString(buffer);
-	char test[4];
-	utoa(crc8_cdma2000(0x23278C9FA1F6900),test,16);
- 208:	20 e0       	ldi	r18, 0x00	; 0
- 20a:	39 e6       	ldi	r19, 0x69	; 105
- 20c:	4f e1       	ldi	r20, 0x1F	; 31
- 20e:	5a ef       	ldi	r21, 0xFA	; 250
- 210:	69 ec       	ldi	r22, 0xC9	; 201
- 212:	78 e7       	ldi	r23, 0x78	; 120
- 214:	82 e3       	ldi	r24, 0x32	; 50
- 216:	92 e0       	ldi	r25, 0x02	; 2
- 218:	2b df       	rcall	.-426    	; 0x70 <crc8_cdma2000>
-    } else if (__radix < 2 || __radix > 36) {
-	*__s = 0;
-	return __s;
-    } else {
-	extern char *__utoa_ncheck (unsigned int, char *, unsigned char);
-	return __utoa_ncheck (__val, __s, __radix);
- 21a:	40 e1       	ldi	r20, 0x10	; 16
- 21c:	be 01       	movw	r22, r28
- 21e:	6f 5f       	subi	r22, 0xFF	; 255
- 220:	7f 4f       	sbci	r23, 0xFF	; 255
- 222:	90 e0       	ldi	r25, 0x00	; 0
- 224:	d3 d0       	rcall	.+422    	; 0x3cc <__utoa_ncheck>
+00000380 <Transceiver>:
 
-	//strcat(buffer, test);
-	USART0_sendChar('<');
- 226:	8c e3       	ldi	r24, 0x3C	; 60
- 228:	5f d0       	rcall	.+190    	; 0x2e8 <USART0_sendChar>
-	USART0_sendString(test); //send crc
- 22a:	ce 01       	movw	r24, r28
- 22c:	01 96       	adiw	r24, 0x01	; 1
- 22e:	63 d0       	rcall	.+198    	; 0x2f6 <USART0_sendString>
-	USART0_sendString(">\r\n");
- 230:	80 e3       	ldi	r24, 0x30	; 48
- 232:	95 e8       	ldi	r25, 0x85	; 133
- 234:	60 d0       	rcall	.+192    	; 0x2f6 <USART0_sendString>
-	temp[0] = !(PORTA.IN & PIN2_bm) + '0'; //PA2 bit value to string
-	strcat(command, temp);
-	strcat(command, ">\r\n");
 
-	USART0_sendString(command);*/
- }
- 236:	24 96       	adiw	r28, 0x04	; 4
- 238:	cd bf       	out	0x3d, r28	; 61
- 23a:	de bf       	out	0x3e, r29	; 62
- 23c:	df 91       	pop	r29
- 23e:	cf 91       	pop	r28
- 240:	08 95       	ret
 
-00000242 <Transceiver>:
+void Transceiver() {
+ 380:	0f 93       	push	r16
+ 382:	1f 93       	push	r17
+ 384:	cf 93       	push	r28
+ 386:	df 93       	push	r29
+ 388:	cd b7       	in	r28, 0x3d	; 61
+ 38a:	de b7       	in	r29, 0x3e	; 62
+ 38c:	60 97       	sbiw	r28, 0x10	; 16
+ 38e:	cd bf       	out	0x3d, r28	; 61
+ 390:	de bf       	out	0x3e, r29	; 62
+	uint8_t index = 0;
+	char command[16] = {0}; // 16 nuliai + null terminatorius
+ 392:	fe 01       	movw	r30, r28
+ 394:	31 96       	adiw	r30, 0x01	; 1
+ 396:	80 e1       	ldi	r24, 0x10	; 16
+ 398:	df 01       	movw	r26, r30
+ 39a:	1d 92       	st	X+, r1
+ 39c:	8a 95       	dec	r24
+ 39e:	e9 f7       	brne	.-6      	; 0x39a <Transceiver+0x1a>
+	uint8_t start = 0;
+ 3a0:	00 e0       	ldi	r16, 0x00	; 0
+}
 
- void Transceiver() {
- 242:	0f 93       	push	r16
- 244:	1f 93       	push	r17
- 246:	cf 93       	push	r28
- 248:	df 93       	push	r29
- 24a:	cd b7       	in	r28, 0x3d	; 61
- 24c:	de b7       	in	r29, 0x3e	; 62
- 24e:	69 97       	sbiw	r28, 0x19	; 25
- 250:	cd bf       	out	0x3d, r28	; 61
- 252:	de bf       	out	0x3e, r29	; 62
-	 uint8_t index = 0;
-	 char command[25] = {0};
- 254:	fe 01       	movw	r30, r28
- 256:	31 96       	adiw	r30, 0x01	; 1
- 258:	89 e1       	ldi	r24, 0x19	; 25
- 25a:	df 01       	movw	r26, r30
- 25c:	1d 92       	st	X+, r1
- 25e:	8a 95       	dec	r24
- 260:	e9 f7       	brne	.-6      	; 0x25c <Transceiver+0x1a>
-	 uint8_t start = 0;
- 262:	10 e0       	ldi	r17, 0x00	; 0
 
-	USART0_sendString(command);*/
- }
 
- void Transceiver() {
-	 uint8_t index = 0;
- 264:	00 e0       	ldi	r16, 0x00	; 0
-	 char command[25] = {0};
-	 uint8_t start = 0;
+void Transceiver() {
+	uint8_t index = 0;
+ 3a2:	10 e0       	ldi	r17, 0x00	; 0
+	char command[16] = {0}; // 16 nuliai + null terminatorius
+	uint8_t start = 0;
 
-    while (1) {
-	    char c = USART0_readChar();
- 266:	64 d0       	rcall	.+200    	; 0x330 <USART0_readChar>
+	while (1) {
+		char c = USART0_readChar();
+ 3a4:	d4 d0       	rcall	.+424    	; 0x54e <USART0_readChar>
 
-	    if (!Status.warning) {
- 268:	90 91 82 3f 	lds	r25, 0x3F82	; 0x803f82 <__DATA_REGION_ORIGIN__+0x2>
- 26c:	91 11       	cpse	r25, r1
- 26e:	1c c0       	rjmp	.+56     	; 0x2a8 <Transceiver+0x66>
-		    if (start == 1) {
- 270:	11 30       	cpi	r17, 0x01	; 1
- 272:	71 f4       	brne	.+28     	; 0x290 <Transceiver+0x4e>
-			    if (c == '>') {
- 274:	8e 33       	cpi	r24, 0x3E	; 62
- 276:	21 f4       	brne	.+8      	; 0x280 <Transceiver+0x3e>
-				    start = 0;
-				    executeCommand(command);
- 278:	ce 01       	movw	r24, r28
- 27a:	01 96       	adiw	r24, 0x01	; 1
- 27c:	b8 df       	rcall	.-144    	; 0x1ee <executeCommand>
-				    index = 0;
-				    break;
- 27e:	21 c0       	rjmp	.+66     	; 0x2c2 <Transceiver+0x80>
-				    } else {
-				    command[index++] = c;
- 280:	e1 e0       	ldi	r30, 0x01	; 1
- 282:	f0 e0       	ldi	r31, 0x00	; 0
- 284:	ec 0f       	add	r30, r28
- 286:	fd 1f       	adc	r31, r29
- 288:	e0 0f       	add	r30, r16
- 28a:	f1 1d       	adc	r31, r1
- 28c:	80 83       	st	Z, r24
- 28e:	0f 5f       	subi	r16, 0xFF	; 255
-			    }
-		    }
-		    if (c == '<') {
- 290:	8c 33       	cpi	r24, 0x3C	; 60
- 292:	09 f4       	brne	.+2      	; 0x296 <Transceiver+0x54>
-			    start = 1;
- 294:	11 e0       	ldi	r17, 0x01	; 1
-		    }
-		    if (Status.error == 1) {
- 296:	80 91 80 3f 	lds	r24, 0x3F80	; 0x803f80 <__DATA_REGION_ORIGIN__>
- 29a:	81 30       	cpi	r24, 0x01	; 1
- 29c:	21 f7       	brne	.-56     	; 0x266 <Transceiver+0x24>
-			    Status.errorCounter = 0;
- 29e:	e0 e8       	ldi	r30, 0x80	; 128
- 2a0:	ff e3       	ldi	r31, 0x3F	; 63
- 2a2:	11 82       	std	Z+1, r1	; 0x01
-			    Status.error = 0;
- 2a4:	10 82       	st	Z, r1
- 2a6:	df cf       	rjmp	.-66     	; 0x266 <Transceiver+0x24>
-		    }
-		    } else {
-		    Status.warning = 0;
- 2a8:	e0 e8       	ldi	r30, 0x80	; 128
- 2aa:	ff e3       	ldi	r31, 0x3F	; 63
- 2ac:	12 82       	std	Z+2, r1	; 0x02
-		    if (Status.errorCounter < CountForError) {
- 2ae:	81 81       	ldd	r24, Z+1	; 0x01
- 2b0:	8a 30       	cpi	r24, 0x0A	; 10
- 2b2:	20 f4       	brcc	.+8      	; 0x2bc <Transceiver+0x7a>
-			    Status.errorCounter += 1;
- 2b4:	8f 5f       	subi	r24, 0xFF	; 255
- 2b6:	80 93 81 3f 	sts	0x3F81, r24	; 0x803f81 <__DATA_REGION_ORIGIN__+0x1>
- 2ba:	03 c0       	rjmp	.+6      	; 0x2c2 <Transceiver+0x80>
-			    } else {
-			    Status.error = 1;
- 2bc:	81 e0       	ldi	r24, 0x01	; 1
- 2be:	80 93 80 3f 	sts	0x3F80, r24	; 0x803f80 <__DATA_REGION_ORIGIN__>
-		    }
-		    break;
-	    }
-    }
- 2c2:	69 96       	adiw	r28, 0x19	; 25
- 2c4:	cd bf       	out	0x3d, r28	; 61
- 2c6:	de bf       	out	0x3e, r29	; 62
- 2c8:	df 91       	pop	r29
- 2ca:	cf 91       	pop	r28
- 2cc:	1f 91       	pop	r17
- 2ce:	0f 91       	pop	r16
- 2d0:	08 95       	ret
+		if (Status.error) {
+ 3a6:	90 91 80 3f 	lds	r25, 0x3F80	; 0x803f80 <__DATA_REGION_ORIGIN__>
+ 3aa:	99 23       	and	r25, r25
+ 3ac:	41 f0       	breq	.+16     	; 0x3be <Transceiver+0x3e>
+			executeCommand("0");
+ 3ae:	82 e1       	ldi	r24, 0x12	; 18
+ 3b0:	97 e8       	ldi	r25, 0x87	; 135
+ 3b2:	34 df       	rcall	.-408    	; 0x21c <executeCommand>
+			Status.error = 0; // Atstatome klaidà po vykdymo
+ 3b4:	e0 e8       	ldi	r30, 0x80	; 128
+ 3b6:	ff e3       	ldi	r31, 0x3F	; 63
+ 3b8:	10 82       	st	Z, r1
+			Status.errorCounter = 0;
+ 3ba:	11 82       	std	Z+1, r1	; 0x01
+			break;
+ 3bc:	2c c0       	rjmp	.+88     	; 0x416 <__LOCK_REGION_LENGTH__+0x16>
+		}
 
-000002d2 <USART0_init>:
+		if (start) {
+ 3be:	00 23       	and	r16, r16
+ 3c0:	81 f0       	breq	.+32     	; 0x3e2 <Transceiver+0x62>
+			if (c == '>') {
+ 3c2:	8e 33       	cpi	r24, 0x3E	; 62
+ 3c4:	21 f4       	brne	.+8      	; 0x3ce <Transceiver+0x4e>
+				start = 0;
+				executeCommand(command);
+ 3c6:	ce 01       	movw	r24, r28
+ 3c8:	01 96       	adiw	r24, 0x01	; 1
+ 3ca:	28 df       	rcall	.-432    	; 0x21c <executeCommand>
+				index = 0;
+				break;
+ 3cc:	24 c0       	rjmp	.+72     	; 0x416 <__LOCK_REGION_LENGTH__+0x16>
+				} else if (index < 16) {
+ 3ce:	10 31       	cpi	r17, 0x10	; 16
+ 3d0:	40 f4       	brcc	.+16     	; 0x3e2 <Transceiver+0x62>
+				command[index++] = c;
+ 3d2:	e1 e0       	ldi	r30, 0x01	; 1
+ 3d4:	f0 e0       	ldi	r31, 0x00	; 0
+ 3d6:	ec 0f       	add	r30, r28
+ 3d8:	fd 1f       	adc	r31, r29
+ 3da:	e1 0f       	add	r30, r17
+ 3dc:	f1 1d       	adc	r31, r1
+ 3de:	80 83       	st	Z, r24
+ 3e0:	1f 5f       	subi	r17, 0xFF	; 255
+			}
+		}
+
+		if (c == '<') {
+ 3e2:	8c 33       	cpi	r24, 0x3C	; 60
+ 3e4:	31 f4       	brne	.+12     	; 0x3f2 <Transceiver+0x72>
+			start = 1;
+			index = 0;
+			Status.error = 0; // Atstatome klaidà
+ 3e6:	e0 e8       	ldi	r30, 0x80	; 128
+ 3e8:	ff e3       	ldi	r31, 0x3F	; 63
+ 3ea:	10 82       	st	Z, r1
+			Status.errorCounter = 0;
+ 3ec:	11 82       	std	Z+1, r1	; 0x01
+				command[index++] = c;
+			}
+		}
+
+		if (c == '<') {
+			start = 1;
+ 3ee:	01 e0       	ldi	r16, 0x01	; 1
+			index = 0;
+ 3f0:	10 e0       	ldi	r17, 0x00	; 0
+			Status.error = 0; // Atstatome klaidà
+			Status.errorCounter = 0;
+		}
+
+		if (Status.warning) {
+ 3f2:	80 91 82 3f 	lds	r24, 0x3F82	; 0x803f82 <__DATA_REGION_ORIGIN__+0x2>
+ 3f6:	88 23       	and	r24, r24
+ 3f8:	a9 f2       	breq	.-86     	; 0x3a4 <Transceiver+0x24>
+			Status.warning = 0;
+ 3fa:	e0 e8       	ldi	r30, 0x80	; 128
+ 3fc:	ff e3       	ldi	r31, 0x3F	; 63
+ 3fe:	12 82       	std	Z+2, r1	; 0x02
+			if (Status.errorCounter < CountForError) {
+ 400:	81 81       	ldd	r24, Z+1	; 0x01
+ 402:	8a 30       	cpi	r24, 0x0A	; 10
+ 404:	20 f4       	brcc	.+8      	; 0x40e <__LOCK_REGION_LENGTH__+0xe>
+				Status.errorCounter++;
+ 406:	8f 5f       	subi	r24, 0xFF	; 255
+ 408:	80 93 81 3f 	sts	0x3F81, r24	; 0x803f81 <__DATA_REGION_ORIGIN__+0x1>
+ 40c:	cb cf       	rjmp	.-106    	; 0x3a4 <Transceiver+0x24>
+				} else {
+				Status.error = 1;
+ 40e:	81 e0       	ldi	r24, 0x01	; 1
+ 410:	80 93 80 3f 	sts	0x3F80, r24	; 0x803f80 <__DATA_REGION_ORIGIN__>
+ 414:	c7 cf       	rjmp	.-114    	; 0x3a4 <Transceiver+0x24>
+			}
+		}
+	}
+}
+ 416:	60 96       	adiw	r28, 0x10	; 16
+ 418:	cd bf       	out	0x3d, r28	; 61
+ 41a:	de bf       	out	0x3e, r29	; 62
+ 41c:	df 91       	pop	r29
+ 41e:	cf 91       	pop	r28
+ 420:	1f 91       	pop	r17
+ 422:	0f 91       	pop	r16
+ 424:	08 95       	ret
+
+00000426 <hexStringToUint64>:
+ * Created: 2025-03-02 15:42:51
+ *  Author: Saulius
+ */ 
+  #include "Settings.h"
+
+   uint64_t hexStringToUint64(const char *hexStr) {
+ 426:	0f 93       	push	r16
+ 428:	dc 01       	movw	r26, r24
+	   uint64_t result = 0;
+ 42a:	20 e0       	ldi	r18, 0x00	; 0
+ 42c:	30 e0       	ldi	r19, 0x00	; 0
+ 42e:	40 e0       	ldi	r20, 0x00	; 0
+ 430:	50 e0       	ldi	r21, 0x00	; 0
+ 432:	60 e0       	ldi	r22, 0x00	; 0
+ 434:	70 e0       	ldi	r23, 0x00	; 0
+ 436:	80 e0       	ldi	r24, 0x00	; 0
+ 438:	90 e0       	ldi	r25, 0x00	; 0
+	   while (*hexStr) {
+ 43a:	15 c0       	rjmp	.+42     	; 0x466 <hexStringToUint64+0x40>
+		   char c = *hexStr;
+		   uint8_t value = 0;
+
+		   if (c >= '0' && c <= '9') {
+ 43c:	f0 ed       	ldi	r31, 0xD0	; 208
+ 43e:	fe 0f       	add	r31, r30
+ 440:	fa 30       	cpi	r31, 0x0A	; 10
+ 442:	68 f0       	brcs	.+26     	; 0x45e <hexStringToUint64+0x38>
+			   value = c - '0';
+			   } else if (c >= 'A' && c <= 'F') {
+ 444:	ff eb       	ldi	r31, 0xBF	; 191
+ 446:	fe 0f       	add	r31, r30
+ 448:	f6 30       	cpi	r31, 0x06	; 6
+ 44a:	18 f4       	brcc	.+6      	; 0x452 <hexStringToUint64+0x2c>
+			   value = c - 'A' + 10;
+ 44c:	f9 ec       	ldi	r31, 0xC9	; 201
+ 44e:	fe 0f       	add	r31, r30
+ 450:	06 c0       	rjmp	.+12     	; 0x45e <hexStringToUint64+0x38>
+			   } else if (c >= 'a' && c <= 'f') {
+ 452:	ff e9       	ldi	r31, 0x9F	; 159
+ 454:	fe 0f       	add	r31, r30
+ 456:	f6 30       	cpi	r31, 0x06	; 6
+ 458:	48 f4       	brcc	.+18     	; 0x46c <hexStringToUint64+0x46>
+			   value = c - 'a' + 10;
+ 45a:	f9 ea       	ldi	r31, 0xA9	; 169
+ 45c:	fe 0f       	add	r31, r30
+			   } else {
+			   break; // Neteisingas simbolis
+		   }
+
+		   result = (result << 4) | value; // Perkeliame 4 bitus ir pridedame naujà reikðmæ
+ 45e:	04 e0       	ldi	r16, 0x04	; 4
+ 460:	8d d0       	rcall	.+282    	; 0x57c <__ashldi3>
+ 462:	2f 2b       	or	r18, r31
+		   hexStr++;
+ 464:	11 96       	adiw	r26, 0x01	; 1
+ */ 
+  #include "Settings.h"
+
+   uint64_t hexStringToUint64(const char *hexStr) {
+	   uint64_t result = 0;
+	   while (*hexStr) {
+ 466:	ec 91       	ld	r30, X
+ 468:	e1 11       	cpse	r30, r1
+ 46a:	e8 cf       	rjmp	.-48     	; 0x43c <hexStringToUint64+0x16>
+
+		   result = (result << 4) | value; // Perkeliame 4 bitus ir pridedame naujà reikðmæ
+		   hexStr++;
+	   }
+	   return result;
+   }
+ 46c:	0f 91       	pop	r16
+ 46e:	08 95       	ret
+
+00000470 <uint64ToHex>:
+	   if (!started) { // Jei reikðmë buvo 0
+		   *out++ = '0';
+	   }
+   }*/
+
+void uint64ToHex(uint64_t value, char *out) {
+ 470:	af 92       	push	r10
+ 472:	bf 92       	push	r11
+ 474:	cf 92       	push	r12
+ 476:	df 92       	push	r13
+ 478:	ef 92       	push	r14
+ 47a:	ff 92       	push	r15
+ 47c:	0f 93       	push	r16
+ 47e:	1f 93       	push	r17
+ 480:	cf 93       	push	r28
+ 482:	df 93       	push	r29
+ 484:	a2 2e       	mov	r10, r18
+ 486:	b3 2e       	mov	r11, r19
+ 488:	c4 2e       	mov	r12, r20
+ 48a:	d5 2e       	mov	r13, r21
+ 48c:	e6 2e       	mov	r14, r22
+ 48e:	f7 2e       	mov	r15, r23
+ 490:	d8 2f       	mov	r29, r24
+ 492:	c9 2f       	mov	r28, r25
+ 494:	d8 01       	movw	r26, r16
+	uint8_t started = 0;
+	for (int8_t i = 60; i >= 0; i -= 4) {
+ 496:	ec e3       	ldi	r30, 0x3C	; 60
+		   *out++ = '0';
+	   }
+   }*/
+
+void uint64ToHex(uint64_t value, char *out) {
+	uint8_t started = 0;
+ 498:	f0 e0       	ldi	r31, 0x00	; 0
+	for (int8_t i = 60; i >= 0; i -= 4) {
+ 49a:	19 c0       	rjmp	.+50     	; 0x4ce <uint64ToHex+0x5e>
+		uint8_t nibble = (value >> i) & 0xF;
+ 49c:	2a 2d       	mov	r18, r10
+ 49e:	3b 2d       	mov	r19, r11
+ 4a0:	4c 2d       	mov	r20, r12
+ 4a2:	5d 2d       	mov	r21, r13
+ 4a4:	6e 2d       	mov	r22, r14
+ 4a6:	7f 2d       	mov	r23, r15
+ 4a8:	8d 2f       	mov	r24, r29
+ 4aa:	9c 2f       	mov	r25, r28
+ 4ac:	0e 2f       	mov	r16, r30
+ 4ae:	81 d0       	rcall	.+258    	; 0x5b2 <__lshrdi3>
+ 4b0:	2f 70       	andi	r18, 0x0F	; 15
+		if (nibble || started) {
+ 4b2:	11 f4       	brne	.+4      	; 0x4b8 <uint64ToHex+0x48>
+ 4b4:	ff 23       	and	r31, r31
+ 4b6:	51 f0       	breq	.+20     	; 0x4cc <uint64ToHex+0x5c>
+			*out++ = (nibble < 10) ? ('0' + nibble) : ('a' + nibble - 10);
+ 4b8:	cd 01       	movw	r24, r26
+ 4ba:	01 96       	adiw	r24, 0x01	; 1
+ 4bc:	2a 30       	cpi	r18, 0x0A	; 10
+ 4be:	10 f4       	brcc	.+4      	; 0x4c4 <uint64ToHex+0x54>
+ 4c0:	20 5d       	subi	r18, 0xD0	; 208
+ 4c2:	01 c0       	rjmp	.+2      	; 0x4c6 <uint64ToHex+0x56>
+ 4c4:	29 5a       	subi	r18, 0xA9	; 169
+ 4c6:	2c 93       	st	X, r18
+ 4c8:	dc 01       	movw	r26, r24
+			started = 1;
+ 4ca:	f1 e0       	ldi	r31, 0x01	; 1
+	   }
+   }*/
+
+void uint64ToHex(uint64_t value, char *out) {
+	uint8_t started = 0;
+	for (int8_t i = 60; i >= 0; i -= 4) {
+ 4cc:	e4 50       	subi	r30, 0x04	; 4
+ 4ce:	ee 23       	and	r30, r30
+ 4d0:	2c f7       	brge	.-54     	; 0x49c <uint64ToHex+0x2c>
+		if (nibble || started) {
+			*out++ = (nibble < 10) ? ('0' + nibble) : ('a' + nibble - 10);
+			started = 1;
+		}
+	}
+	if (!started) *out++ = '0'; // Jei reikðmë buvo 0
+ 4d2:	f1 11       	cpse	r31, r1
+ 4d4:	02 c0       	rjmp	.+4      	; 0x4da <uint64ToHex+0x6a>
+ 4d6:	80 e3       	ldi	r24, 0x30	; 48
+ 4d8:	8c 93       	st	X, r24
+ 4da:	df 91       	pop	r29
+ 4dc:	cf 91       	pop	r28
+ 4de:	1f 91       	pop	r17
+ 4e0:	0f 91       	pop	r16
+ 4e2:	ff 90       	pop	r15
+ 4e4:	ef 90       	pop	r14
+ 4e6:	df 90       	pop	r13
+ 4e8:	cf 90       	pop	r12
+ 4ea:	bf 90       	pop	r11
+ 4ec:	af 90       	pop	r10
+ 4ee:	08 95       	ret
+
+000004f0 <USART0_init>:
  * - Double-speed operation for higher communication speed.
  * - Transmitter enabled, reception mode set for double-speed.
  * - Asynchronous communication mode with 8 data bits, no parity, and 1 stop bit.
  */
 void USART0_init() {
     USART0.BAUD = (uint16_t)USART0_BAUD_RATE(500000); ///< Set baud rate to 0.25 Mbps.
- 2d2:	e0 e0       	ldi	r30, 0x00	; 0
- 2d4:	f8 e0       	ldi	r31, 0x08	; 8
- 2d6:	80 e4       	ldi	r24, 0x40	; 64
- 2d8:	91 e0       	ldi	r25, 0x01	; 1
- 2da:	80 87       	std	Z+8, r24	; 0x08
- 2dc:	91 87       	std	Z+9, r25	; 0x09
+ 4f0:	e0 e0       	ldi	r30, 0x00	; 0
+ 4f2:	f8 e0       	ldi	r31, 0x08	; 8
+ 4f4:	80 e4       	ldi	r24, 0x40	; 64
+ 4f6:	91 e0       	ldi	r25, 0x01	; 1
+ 4f8:	80 87       	std	Z+8, r24	; 0x08
+ 4fa:	91 87       	std	Z+9, r25	; 0x09
     USART0.CTRLB = USART_TXEN_bm | USART_RXEN_bm | USART_RXMODE_CLK2X_gc; ///< Enable transmitter, double-speed mode.
- 2de:	82 ec       	ldi	r24, 0xC2	; 194
- 2e0:	86 83       	std	Z+6, r24	; 0x06
+ 4fc:	82 ec       	ldi	r24, 0xC2	; 194
+ 4fe:	86 83       	std	Z+6, r24	; 0x06
     USART0.CTRLC = USART_CMODE_ASYNCHRONOUS_gc | ///< Configure for asynchronous mode.
- 2e2:	83 e0       	ldi	r24, 0x03	; 3
- 2e4:	87 83       	std	Z+7, r24	; 0x07
- 2e6:	08 95       	ret
+ 500:	83 e0       	ldi	r24, 0x03	; 3
+ 502:	87 83       	std	Z+7, r24	; 0x07
+ 504:	08 95       	ret
 
-000002e8 <USART0_sendChar>:
+00000506 <USART0_sendChar>:
  * This function waits for the USART0 data register to be empty and then transmits the specified character.
  * 
  * @param c The character to be transmitted.
  */
 void USART0_sendChar(char c) {
     while (!(USART0.STATUS & USART_DREIF_bm)); ///< Wait for data register to be empty.
- 2e8:	90 91 04 08 	lds	r25, 0x0804	; 0x800804 <crc8_table+0x7f83d4>
- 2ec:	95 ff       	sbrs	r25, 5
- 2ee:	fc cf       	rjmp	.-8      	; 0x2e8 <USART0_sendChar>
+ 506:	90 91 04 08 	lds	r25, 0x0804	; 0x800804 <crc8_table+0x7f81f2>
+ 50a:	95 ff       	sbrs	r25, 5
+ 50c:	fc cf       	rjmp	.-8      	; 0x506 <USART0_sendChar>
     USART0.TXDATAL = c; ///< Transmit the character.
- 2f0:	80 93 02 08 	sts	0x0802, r24	; 0x800802 <crc8_table+0x7f83d2>
- 2f4:	08 95       	ret
+ 50e:	80 93 02 08 	sts	0x0802, r24	; 0x800802 <crc8_table+0x7f81f0>
+ 512:	08 95       	ret
 
-000002f6 <USART0_sendString>:
+00000514 <USART0_sendString>:
  * 
  * This function sends a string of characters one by one using the `USART0_sendChar` function.
  * 
  * @param str The string to be transmitted.
  */
 void USART0_sendString(char *str) {
- 2f6:	0f 93       	push	r16
- 2f8:	1f 93       	push	r17
- 2fa:	cf 93       	push	r28
- 2fc:	df 93       	push	r29
- 2fe:	8c 01       	movw	r16, r24
+ 514:	0f 93       	push	r16
+ 516:	1f 93       	push	r17
+ 518:	cf 93       	push	r28
+ 51a:	df 93       	push	r29
+ 51c:	8c 01       	movw	r16, r24
     for (size_t i = 0; i < strlen(str); i++) {
- 300:	c0 e0       	ldi	r28, 0x00	; 0
- 302:	d0 e0       	ldi	r29, 0x00	; 0
- 304:	06 c0       	rjmp	.+12     	; 0x312 <USART0_sendString+0x1c>
+ 51e:	c0 e0       	ldi	r28, 0x00	; 0
+ 520:	d0 e0       	ldi	r29, 0x00	; 0
+ 522:	06 c0       	rjmp	.+12     	; 0x530 <USART0_sendString+0x1c>
         USART0_sendChar(str[i]); ///< Send each character of the string.
- 306:	f8 01       	movw	r30, r16
- 308:	ec 0f       	add	r30, r28
- 30a:	fd 1f       	adc	r31, r29
- 30c:	80 81       	ld	r24, Z
- 30e:	ec df       	rcall	.-40     	; 0x2e8 <USART0_sendChar>
+ 524:	f8 01       	movw	r30, r16
+ 526:	ec 0f       	add	r30, r28
+ 528:	fd 1f       	adc	r31, r29
+ 52a:	80 81       	ld	r24, Z
+ 52c:	ec df       	rcall	.-40     	; 0x506 <USART0_sendChar>
  * This function sends a string of characters one by one using the `USART0_sendChar` function.
  * 
  * @param str The string to be transmitted.
  */
 void USART0_sendString(char *str) {
     for (size_t i = 0; i < strlen(str); i++) {
- 310:	21 96       	adiw	r28, 0x01	; 1
- 312:	f8 01       	movw	r30, r16
- 314:	01 90       	ld	r0, Z+
- 316:	00 20       	and	r0, r0
- 318:	e9 f7       	brne	.-6      	; 0x314 <USART0_sendString+0x1e>
- 31a:	31 97       	sbiw	r30, 0x01	; 1
- 31c:	e0 1b       	sub	r30, r16
- 31e:	f1 0b       	sbc	r31, r17
- 320:	ce 17       	cp	r28, r30
- 322:	df 07       	cpc	r29, r31
- 324:	80 f3       	brcs	.-32     	; 0x306 <USART0_sendString+0x10>
+ 52e:	21 96       	adiw	r28, 0x01	; 1
+ 530:	f8 01       	movw	r30, r16
+ 532:	01 90       	ld	r0, Z+
+ 534:	00 20       	and	r0, r0
+ 536:	e9 f7       	brne	.-6      	; 0x532 <USART0_sendString+0x1e>
+ 538:	31 97       	sbiw	r30, 0x01	; 1
+ 53a:	e0 1b       	sub	r30, r16
+ 53c:	f1 0b       	sbc	r31, r17
+ 53e:	ce 17       	cp	r28, r30
+ 540:	df 07       	cpc	r29, r31
+ 542:	80 f3       	brcs	.-32     	; 0x524 <USART0_sendString+0x10>
         USART0_sendChar(str[i]); ///< Send each character of the string.
     }
 }
- 326:	df 91       	pop	r29
- 328:	cf 91       	pop	r28
- 32a:	1f 91       	pop	r17
- 32c:	0f 91       	pop	r16
- 32e:	08 95       	ret
+ 544:	df 91       	pop	r29
+ 546:	cf 91       	pop	r28
+ 548:	1f 91       	pop	r17
+ 54a:	0f 91       	pop	r16
+ 54c:	08 95       	ret
 
-00000330 <USART0_readChar>:
+0000054e <USART0_readChar>:
 
 char USART0_readChar() {
 	USART0.STATUS = USART_RXCIF_bm; // Clear buffer before reading
- 330:	80 e8       	ldi	r24, 0x80	; 128
- 332:	80 93 04 08 	sts	0x0804, r24	; 0x800804 <crc8_table+0x7f83d4>
+ 54e:	80 e8       	ldi	r24, 0x80	; 128
+ 550:	80 93 04 08 	sts	0x0804, r24	; 0x800804 <crc8_table+0x7f81f2>
 	uint32_t timeout_counter = TIMEOUT_COUNTER; // Set a timeout counter
- 336:	80 e2       	ldi	r24, 0x20	; 32
- 338:	91 ea       	ldi	r25, 0xA1	; 161
- 33a:	a7 e0       	ldi	r26, 0x07	; 7
- 33c:	b0 e0       	ldi	r27, 0x00	; 0
+ 554:	80 e4       	ldi	r24, 0x40	; 64
+ 556:	9c e9       	ldi	r25, 0x9C	; 156
+ 558:	a0 e0       	ldi	r26, 0x00	; 0
+ 55a:	b0 e0       	ldi	r27, 0x00	; 0
 	while (!(USART0.STATUS & USART_RXCIF_bm)) { // Wait for data to be received
- 33e:	08 c0       	rjmp	.+16     	; 0x350 <USART0_readChar+0x20>
+ 55c:	08 c0       	rjmp	.+16     	; 0x56e <USART0_readChar+0x20>
 		if (--timeout_counter == 0) { // Timeout condition
- 340:	01 97       	sbiw	r24, 0x01	; 1
- 342:	a1 09       	sbc	r26, r1
- 344:	b1 09       	sbc	r27, r1
- 346:	21 f4       	brne	.+8      	; 0x350 <USART0_readChar+0x20>
-			Status.warning = 3; // Set warning if timeout occurs
- 348:	83 e0       	ldi	r24, 0x03	; 3
- 34a:	80 93 82 3f 	sts	0x3F82, r24	; 0x803f82 <__DATA_REGION_ORIGIN__+0x2>
+ 55e:	01 97       	sbiw	r24, 0x01	; 1
+ 560:	a1 09       	sbc	r26, r1
+ 562:	b1 09       	sbc	r27, r1
+ 564:	21 f4       	brne	.+8      	; 0x56e <USART0_readChar+0x20>
+			Status.warning = 1; // Set warning if timeout occurs
+ 566:	81 e0       	ldi	r24, 0x01	; 1
+ 568:	80 93 82 3f 	sts	0x3F82, r24	; 0x803f82 <__DATA_REGION_ORIGIN__+0x2>
 			break;
- 34e:	04 c0       	rjmp	.+8      	; 0x358 <USART0_readChar+0x28>
+ 56c:	04 c0       	rjmp	.+8      	; 0x576 <USART0_readChar+0x28>
 }
 
 char USART0_readChar() {
 	USART0.STATUS = USART_RXCIF_bm; // Clear buffer before reading
 	uint32_t timeout_counter = TIMEOUT_COUNTER; // Set a timeout counter
 	while (!(USART0.STATUS & USART_RXCIF_bm)) { // Wait for data to be received
- 350:	20 91 04 08 	lds	r18, 0x0804	; 0x800804 <crc8_table+0x7f83d4>
- 354:	22 23       	and	r18, r18
- 356:	a4 f7       	brge	.-24     	; 0x340 <USART0_readChar+0x10>
+ 56e:	20 91 04 08 	lds	r18, 0x0804	; 0x800804 <crc8_table+0x7f81f2>
+ 572:	22 23       	and	r18, r18
+ 574:	a4 f7       	brge	.-24     	; 0x55e <USART0_readChar+0x10>
 		if (--timeout_counter == 0) { // Timeout condition
-			Status.warning = 3; // Set warning if timeout occurs
+			Status.warning = 1; // Set warning if timeout occurs
 			break;
 		}
 	}
 	return USART0.RXDATAL; // Return received character
- 358:	80 91 00 08 	lds	r24, 0x0800	; 0x800800 <crc8_table+0x7f83d0>
+ 576:	80 91 00 08 	lds	r24, 0x0800	; 0x800800 <crc8_table+0x7f81ee>
 }
- 35c:	08 95       	ret
+ 57a:	08 95       	ret
 
-0000035e <__ashldi3>:
- 35e:	0f 93       	push	r16
- 360:	08 30       	cpi	r16, 0x08	; 8
- 362:	90 f0       	brcs	.+36     	; 0x388 <__ashldi3+0x2a>
- 364:	98 2f       	mov	r25, r24
- 366:	87 2f       	mov	r24, r23
- 368:	76 2f       	mov	r23, r22
- 36a:	65 2f       	mov	r22, r21
- 36c:	54 2f       	mov	r21, r20
- 36e:	43 2f       	mov	r20, r19
- 370:	32 2f       	mov	r19, r18
- 372:	22 27       	eor	r18, r18
- 374:	08 50       	subi	r16, 0x08	; 8
- 376:	f4 cf       	rjmp	.-24     	; 0x360 <__ashldi3+0x2>
- 378:	22 0f       	add	r18, r18
- 37a:	33 1f       	adc	r19, r19
- 37c:	44 1f       	adc	r20, r20
- 37e:	55 1f       	adc	r21, r21
- 380:	66 1f       	adc	r22, r22
- 382:	77 1f       	adc	r23, r23
- 384:	88 1f       	adc	r24, r24
- 386:	99 1f       	adc	r25, r25
- 388:	0a 95       	dec	r16
- 38a:	b2 f7       	brpl	.-20     	; 0x378 <__ashldi3+0x1a>
- 38c:	0f 91       	pop	r16
- 38e:	08 95       	ret
+0000057c <__ashldi3>:
+ 57c:	0f 93       	push	r16
+ 57e:	08 30       	cpi	r16, 0x08	; 8
+ 580:	90 f0       	brcs	.+36     	; 0x5a6 <__ashldi3+0x2a>
+ 582:	98 2f       	mov	r25, r24
+ 584:	87 2f       	mov	r24, r23
+ 586:	76 2f       	mov	r23, r22
+ 588:	65 2f       	mov	r22, r21
+ 58a:	54 2f       	mov	r21, r20
+ 58c:	43 2f       	mov	r20, r19
+ 58e:	32 2f       	mov	r19, r18
+ 590:	22 27       	eor	r18, r18
+ 592:	08 50       	subi	r16, 0x08	; 8
+ 594:	f4 cf       	rjmp	.-24     	; 0x57e <__ashldi3+0x2>
+ 596:	22 0f       	add	r18, r18
+ 598:	33 1f       	adc	r19, r19
+ 59a:	44 1f       	adc	r20, r20
+ 59c:	55 1f       	adc	r21, r21
+ 59e:	66 1f       	adc	r22, r22
+ 5a0:	77 1f       	adc	r23, r23
+ 5a2:	88 1f       	adc	r24, r24
+ 5a4:	99 1f       	adc	r25, r25
+ 5a6:	0a 95       	dec	r16
+ 5a8:	b2 f7       	brpl	.-20     	; 0x596 <__ashldi3+0x1a>
+ 5aa:	0f 91       	pop	r16
+ 5ac:	08 95       	ret
 
-00000390 <__ashrdi3>:
- 390:	97 fb       	bst	r25, 7
- 392:	10 f8       	bld	r1, 0
+000005ae <__ashrdi3>:
+ 5ae:	97 fb       	bst	r25, 7
+ 5b0:	10 f8       	bld	r1, 0
 
-00000394 <__lshrdi3>:
- 394:	16 94       	lsr	r1
- 396:	00 08       	sbc	r0, r0
- 398:	0f 93       	push	r16
- 39a:	08 30       	cpi	r16, 0x08	; 8
- 39c:	98 f0       	brcs	.+38     	; 0x3c4 <__lshrdi3+0x30>
- 39e:	08 50       	subi	r16, 0x08	; 8
- 3a0:	23 2f       	mov	r18, r19
- 3a2:	34 2f       	mov	r19, r20
- 3a4:	45 2f       	mov	r20, r21
- 3a6:	56 2f       	mov	r21, r22
- 3a8:	67 2f       	mov	r22, r23
- 3aa:	78 2f       	mov	r23, r24
- 3ac:	89 2f       	mov	r24, r25
- 3ae:	90 2d       	mov	r25, r0
- 3b0:	f4 cf       	rjmp	.-24     	; 0x39a <__lshrdi3+0x6>
- 3b2:	05 94       	asr	r0
- 3b4:	97 95       	ror	r25
- 3b6:	87 95       	ror	r24
- 3b8:	77 95       	ror	r23
- 3ba:	67 95       	ror	r22
- 3bc:	57 95       	ror	r21
- 3be:	47 95       	ror	r20
- 3c0:	37 95       	ror	r19
- 3c2:	27 95       	ror	r18
- 3c4:	0a 95       	dec	r16
- 3c6:	aa f7       	brpl	.-22     	; 0x3b2 <__lshrdi3+0x1e>
- 3c8:	0f 91       	pop	r16
- 3ca:	08 95       	ret
+000005b2 <__lshrdi3>:
+ 5b2:	16 94       	lsr	r1
+ 5b4:	00 08       	sbc	r0, r0
+ 5b6:	0f 93       	push	r16
+ 5b8:	08 30       	cpi	r16, 0x08	; 8
+ 5ba:	98 f0       	brcs	.+38     	; 0x5e2 <__lshrdi3+0x30>
+ 5bc:	08 50       	subi	r16, 0x08	; 8
+ 5be:	23 2f       	mov	r18, r19
+ 5c0:	34 2f       	mov	r19, r20
+ 5c2:	45 2f       	mov	r20, r21
+ 5c4:	56 2f       	mov	r21, r22
+ 5c6:	67 2f       	mov	r22, r23
+ 5c8:	78 2f       	mov	r23, r24
+ 5ca:	89 2f       	mov	r24, r25
+ 5cc:	90 2d       	mov	r25, r0
+ 5ce:	f4 cf       	rjmp	.-24     	; 0x5b8 <__lshrdi3+0x6>
+ 5d0:	05 94       	asr	r0
+ 5d2:	97 95       	ror	r25
+ 5d4:	87 95       	ror	r24
+ 5d6:	77 95       	ror	r23
+ 5d8:	67 95       	ror	r22
+ 5da:	57 95       	ror	r21
+ 5dc:	47 95       	ror	r20
+ 5de:	37 95       	ror	r19
+ 5e0:	27 95       	ror	r18
+ 5e2:	0a 95       	dec	r16
+ 5e4:	aa f7       	brpl	.-22     	; 0x5d0 <__lshrdi3+0x1e>
+ 5e6:	0f 91       	pop	r16
+ 5e8:	08 95       	ret
 
-000003cc <__utoa_ncheck>:
- 3cc:	bb 27       	eor	r27, r27
+000005ea <__cmpdi2_s8>:
+ 5ea:	00 24       	eor	r0, r0
+ 5ec:	a7 fd       	sbrc	r26, 7
+ 5ee:	00 94       	com	r0
+ 5f0:	2a 17       	cp	r18, r26
+ 5f2:	30 05       	cpc	r19, r0
+ 5f4:	40 05       	cpc	r20, r0
+ 5f6:	50 05       	cpc	r21, r0
+ 5f8:	60 05       	cpc	r22, r0
+ 5fa:	70 05       	cpc	r23, r0
+ 5fc:	80 05       	cpc	r24, r0
+ 5fe:	90 05       	cpc	r25, r0
+ 600:	08 95       	ret
 
-000003ce <__utoa_common>:
- 3ce:	fb 01       	movw	r30, r22
- 3d0:	55 27       	eor	r21, r21
- 3d2:	aa 27       	eor	r26, r26
- 3d4:	88 0f       	add	r24, r24
- 3d6:	99 1f       	adc	r25, r25
- 3d8:	aa 1f       	adc	r26, r26
- 3da:	a4 17       	cp	r26, r20
- 3dc:	10 f0       	brcs	.+4      	; 0x3e2 <__utoa_common+0x14>
- 3de:	a4 1b       	sub	r26, r20
- 3e0:	83 95       	inc	r24
- 3e2:	50 51       	subi	r21, 0x10	; 16
- 3e4:	b9 f7       	brne	.-18     	; 0x3d4 <__utoa_common+0x6>
- 3e6:	a0 5d       	subi	r26, 0xD0	; 208
- 3e8:	aa 33       	cpi	r26, 0x3A	; 58
- 3ea:	08 f0       	brcs	.+2      	; 0x3ee <__utoa_common+0x20>
- 3ec:	a9 5d       	subi	r26, 0xD9	; 217
- 3ee:	a1 93       	st	Z+, r26
- 3f0:	00 97       	sbiw	r24, 0x00	; 0
- 3f2:	79 f7       	brne	.-34     	; 0x3d2 <__utoa_common+0x4>
- 3f4:	b1 11       	cpse	r27, r1
- 3f6:	b1 93       	st	Z+, r27
- 3f8:	11 92       	st	Z+, r1
- 3fa:	cb 01       	movw	r24, r22
- 3fc:	0c 94 00 02 	jmp	0x400	; 0x400 <strrev>
+00000602 <ccp_write_io>:
+ 602:	dc 01       	movw	r26, r24
+ 604:	28 ed       	ldi	r18, 0xD8	; 216
+ 606:	20 93 34 00 	sts	0x0034, r18	; 0x800034 <crc8_table+0x7f7a22>
+ 60a:	6c 93       	st	X, r22
+ 60c:	08 95       	ret
 
-00000400 <strrev>:
- 400:	dc 01       	movw	r26, r24
- 402:	fc 01       	movw	r30, r24
- 404:	67 2f       	mov	r22, r23
- 406:	71 91       	ld	r23, Z+
- 408:	77 23       	and	r23, r23
- 40a:	e1 f7       	brne	.-8      	; 0x404 <strrev+0x4>
- 40c:	32 97       	sbiw	r30, 0x02	; 2
- 40e:	04 c0       	rjmp	.+8      	; 0x418 <strrev+0x18>
- 410:	7c 91       	ld	r23, X
- 412:	6d 93       	st	X+, r22
- 414:	70 83       	st	Z, r23
- 416:	62 91       	ld	r22, -Z
- 418:	ae 17       	cp	r26, r30
- 41a:	bf 07       	cpc	r27, r31
- 41c:	c8 f3       	brcs	.-14     	; 0x410 <strrev+0x10>
- 41e:	08 95       	ret
+0000060e <_exit>:
+ 60e:	f8 94       	cli
 
-00000420 <ccp_write_io>:
- 420:	dc 01       	movw	r26, r24
- 422:	28 ed       	ldi	r18, 0xD8	; 216
- 424:	20 93 34 00 	sts	0x0034, r18	; 0x800034 <crc8_table+0x7f7c04>
- 428:	6c 93       	st	X, r22
- 42a:	08 95       	ret
-
-0000042c <_exit>:
- 42c:	f8 94       	cli
-
-0000042e <__stop_program>:
- 42e:	ff cf       	rjmp	.-2      	; 0x42e <__stop_program>
+00000610 <__stop_program>:
+ 610:	ff cf       	rjmp	.-2      	; 0x610 <__stop_program>

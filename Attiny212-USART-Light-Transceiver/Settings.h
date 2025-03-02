@@ -101,5 +101,9 @@ uint64_t verify_crc8_cdma2000(uint64_t data_with_crc);
 
 uint8_t crc8_cdma2000(uint64_t data);
 
+uint64_t hexStringToUint64(const char *hexStr);
+
+void uint64ToHex(uint64_t value, char *out);
+
 
 #endif /* SETTINGS_H_ */
