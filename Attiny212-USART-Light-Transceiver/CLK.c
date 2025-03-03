@@ -13,6 +13,9 @@
 
 void CLOCK_XOSCHF_clock_init()
 {
+	/* Wait for external clock change to stable */
+	while (CLKCTRL.MCLKSTATUS & CLKCTRL_EXTS_bm)
+	{};
 	/* Enable external (20 MHz) clock input */
 	ccp_write_io((uint8_t *) &CLKCTRL.MCLKCTRLA, CLKCTRL_CLKSEL_EXTCLK_gc | CLKCTRL_CLKSEL_OSC20M_gc);
 
