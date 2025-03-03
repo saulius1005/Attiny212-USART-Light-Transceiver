@@ -569,17 +569,17 @@ END GROUP
  .debug_abbrev  0x00001af8      0x1b8 USART.o
  .debug_abbrev  0x00001cb0       0x14 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATtiny_DFP/2.0.368/gcc/dev/attiny212/avrxmega3/short-calls\libattiny212.a(ccp_write.o)
 
-.debug_line     0x00000000      0xcbe
+.debug_line     0x00000000      0xcc4
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x136 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATtiny_DFP/2.0.368/gcc/dev/attiny212/avrxmega3/short-calls/crtattiny212.o
  .debug_line    0x00000136      0x1a9 CLK.o
- .debug_line    0x000002df      0x16e CRC.o
- .debug_line    0x0000044d      0x11d GPIO.o
- .debug_line    0x0000056a       0x63 main.o
- .debug_line    0x000005cd      0x2df Transceiver.o
- .debug_line    0x000008ac      0x177 UintHex.o
- .debug_line    0x00000a23      0x231 USART.o
- .debug_line    0x00000c54       0x6a C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATtiny_DFP/2.0.368/gcc/dev/attiny212/avrxmega3/short-calls\libattiny212.a(ccp_write.o)
+ .debug_line    0x000002df      0x16f CRC.o
+ .debug_line    0x0000044e      0x11f GPIO.o
+ .debug_line    0x0000056d       0x63 main.o
+ .debug_line    0x000005d0      0x2e0 Transceiver.o
+ .debug_line    0x000008b0      0x178 UintHex.o
+ .debug_line    0x00000a28      0x232 USART.o
+ .debug_line    0x00000c5a       0x6a C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATtiny_DFP/2.0.368/gcc/dev/attiny212/avrxmega3/short-calls\libattiny212.a(ccp_write.o)
 
 .debug_frame    0x00000000      0x2c4
  *(.debug_frame)

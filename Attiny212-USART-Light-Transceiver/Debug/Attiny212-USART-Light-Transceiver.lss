@@ -21,15 +21,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   8 .debug_abbrev 00001cc4  00000000  00000000  0000329f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   00000cbe  00000000  00000000  00004f63  2**0
+  9 .debug_line   00000cc4  00000000  00000000  00004f63  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_frame  000002c4  00000000  00000000  00005c24  2**2
+ 10 .debug_frame  000002c4  00000000  00000000  00005c28  2**2
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    00001260  00000000  00000000  00005ee8  2**0
+ 11 .debug_str    00001260  00000000  00000000  00005eec  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    00000a9c  00000000  00000000  00007148  2**0
+ 12 .debug_loc    00000a9c  00000000  00000000  0000714c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_ranges 000000c8  00000000  00000000  00007be4  2**0
+ 13 .debug_ranges 000000c8  00000000  00000000  00007be8  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -119,11 +119,11 @@ void CLOCK_XOSCHF_clock_init()
   6e:	08 95       	ret
 
 00000070 <crc8_cdma2000>:
-0xA7, 0x3C, 0x0A, 0x91, 0x66, 0xFD, 0xCB, 0x50,   0xBE, 0x25, 0x13, 0x88, 0x7F, 0xE4, 0xD2, 0x49,
-0x95, 0x0E, 0x38, 0xA3, 0x54, 0xCF, 0xF9, 0x62,   0x8C, 0x17, 0x21, 0xBA, 0x4D, 0xD6, 0xE0, 0x7B
-};
-
-
+ * of the input data. The result is returned as a single byte (CRC value).
+ * 
+ * @param data The input data to calculate the CRC for.
+ * @return The CRC-8 checksum value for the data.
+ */
 uint8_t crc8_cdma2000(uint64_t data) {
   70:	2f 92       	push	r2
   72:	3f 92       	push	r3
@@ -156,9 +156,9 @@ uint8_t crc8_cdma2000(uint64_t data) {
   a8:	77 2e       	mov	r7, r23
   aa:	68 2e       	mov	r6, r24
   ac:	59 2e       	mov	r5, r25
-	uint8_t crc = 0xFF;
-	size_t length = 0;
-	uint64_t temp = data;
+    uint8_t crc = 0xFF;    ///< Initial CRC value.
+    size_t length = 0;     ///< Length of the data in bytes.
+    uint64_t temp = data;
   ae:	f2 2e       	mov	r15, r18
   b0:	03 2f       	mov	r16, r19
   b2:	14 2f       	mov	r17, r20
@@ -167,20 +167,22 @@ uint8_t crc8_cdma2000(uint64_t data) {
   b8:	b7 2f       	mov	r27, r23
   ba:	d8 2e       	mov	r13, r24
   bc:	e9 2e       	mov	r14, r25
-};
-
-
+ * @param data The input data to calculate the CRC for.
+ * @return The CRC-8 checksum value for the data.
+ */
 uint8_t crc8_cdma2000(uint64_t data) {
-	uint8_t crc = 0xFF;
-	size_t length = 0;
+    uint8_t crc = 0xFF;    ///< Initial CRC value.
+    size_t length = 0;     ///< Length of the data in bytes.
   be:	e0 e0       	ldi	r30, 0x00	; 0
   c0:	f0 e0       	ldi	r31, 0x00	; 0
-	uint64_t temp = data;
-	while (temp) {
+    uint64_t temp = data;
+
+    // Calculate the number of bytes in the data.
+    while (temp) {
   c2:	13 c0       	rjmp	.+38     	; 0xea <__DATA_REGION_LENGTH__+0x6a>
-		length++;
+        length++;
   c4:	31 96       	adiw	r30, 0x01	; 1
-		temp >>= 8;
+        temp >>= 8;
   c6:	2f 2d       	mov	r18, r15
   c8:	30 2f       	mov	r19, r16
   ca:	41 2f       	mov	r20, r17
@@ -199,12 +201,12 @@ uint8_t crc8_cdma2000(uint64_t data) {
   e4:	b7 2f       	mov	r27, r23
   e6:	d8 2e       	mov	r13, r24
   e8:	e9 2e       	mov	r14, r25
+    uint8_t crc = 0xFF;    ///< Initial CRC value.
+    size_t length = 0;     ///< Length of the data in bytes.
+    uint64_t temp = data;
 
-uint8_t crc8_cdma2000(uint64_t data) {
-	uint8_t crc = 0xFF;
-	size_t length = 0;
-	uint64_t temp = data;
-	while (temp) {
+    // Calculate the number of bytes in the data.
+    while (temp) {
   ea:	2f 2d       	mov	r18, r15
   ec:	30 2f       	mov	r19, r16
   ee:	41 2f       	mov	r20, r17
@@ -224,11 +226,12 @@ uint8_t crc8_cdma2000(uint64_t data) {
  10a:	39 2c       	mov	r3, r9
  10c:	28 2c       	mov	r2, r8
  10e:	19 c0       	rjmp	.+50     	; 0x142 <__DATA_REGION_LENGTH__+0xc2>
-		length++;
-		temp >>= 8;
-	}
-	while (length--) {
-		crc = crc8_table[crc ^ ((data >> (length * 8)) & 0xFF)];
+        temp >>= 8;
+    }
+
+    // Process each byte in the data.
+    while (length--) {
+        crc = crc8_table[crc ^ ((data >> (length * 8)) & 0xFF)];
  110:	8d 01       	movw	r16, r26
  112:	00 0f       	add	r16, r16
  114:	11 1f       	adc	r17, r17
@@ -253,21 +256,21 @@ uint8_t crc8_cdma2000(uint64_t data) {
  13a:	f9 47       	sbci	r31, 0x79	; 121
  13c:	80 81       	ld	r24, Z
  13e:	8a 87       	std	Y+10, r24	; 0x0a
-	uint64_t temp = data;
-	while (temp) {
-		length++;
-		temp >>= 8;
-	}
-	while (length--) {
+        length++;
+        temp >>= 8;
+    }
+
+    // Process each byte in the data.
+    while (length--) {
  140:	fd 01       	movw	r30, r26
  142:	df 01       	movw	r26, r30
  144:	11 97       	sbiw	r26, 0x01	; 1
  146:	ef 2b       	or	r30, r31
  148:	19 f7       	brne	.-58     	; 0x110 <__DATA_REGION_LENGTH__+0x90>
  14a:	8a 85       	ldd	r24, Y+10	; 0x0a
-		crc = crc8_table[crc ^ ((data >> (length * 8)) & 0xFF)];
-	}
-	return crc;
+        crc = crc8_table[crc ^ ((data >> (length * 8)) & 0xFF)];
+    }
+    return crc;  ///< Return the calculated CRC.
 }
  14c:	2b 96       	adiw	r28, 0x0b	; 11
  14e:	cd bf       	out	0x3d, r28	; 61
@@ -293,8 +296,11 @@ uint8_t crc8_cdma2000(uint64_t data) {
  176:	08 95       	ret
 
 00000178 <verify_crc8_cdma2000>:
-
-
+ * without the CRC byte. Otherwise, it returns 0 to indicate a mismatch.
+ * 
+ * @param data_with_crc The input data with the CRC byte appended.
+ * @return The data without the CRC byte if the checksum is valid, or 0 if invalid.
+ */
 uint64_t verify_crc8_cdma2000(uint64_t data_with_crc) {
  178:	bf 92       	push	r11
  17a:	cf 92       	push	r12
@@ -306,8 +312,8 @@ uint64_t verify_crc8_cdma2000(uint64_t data_with_crc) {
  186:	cf 93       	push	r28
  188:	df 93       	push	r29
  18a:	b2 2e       	mov	r11, r18
-	uint8_t expected_crc = data_with_crc & 0xFF;
-	uint64_t data = data_with_crc >> 8;
+    uint8_t expected_crc = data_with_crc & 0xFF;  ///< Extract the CRC byte.
+    uint64_t data = data_with_crc >> 8;           ///< Data without the CRC byte.
  18c:	08 e0       	ldi	r16, 0x08	; 8
  18e:	11 d2       	rcall	.+1058   	; 0x5b2 <__lshrdi3>
  190:	c2 2e       	mov	r12, r18
@@ -318,13 +324,15 @@ uint64_t verify_crc8_cdma2000(uint64_t data_with_crc) {
  19a:	17 2f       	mov	r17, r23
  19c:	d8 2f       	mov	r29, r24
  19e:	c9 2f       	mov	r28, r25
-	if (crc8_cdma2000(data) == expected_crc) {
+
+    // Verify the CRC.
+    if (crc8_cdma2000(data) == expected_crc) {
  1a0:	67 df       	rcall	.-306    	; 0x70 <crc8_cdma2000>
  1a2:	b8 16       	cp	r11, r24
  1a4:	49 f0       	breq	.+18     	; 0x1b8 <verify_crc8_cdma2000+0x40>
-		return data;
-	}
-	return 0;
+        return data;  ///< Return the data if CRC is valid.
+    }
+    return 0;  ///< Return 0 if CRC is invalid.
  1a6:	20 e0       	ldi	r18, 0x00	; 0
  1a8:	30 e0       	ldi	r19, 0x00	; 0
  1aa:	40 e0       	ldi	r20, 0x00	; 0
@@ -334,12 +342,12 @@ uint64_t verify_crc8_cdma2000(uint64_t data_with_crc) {
  1b2:	80 e0       	ldi	r24, 0x00	; 0
  1b4:	90 e0       	ldi	r25, 0x00	; 0
  1b6:	08 c0       	rjmp	.+16     	; 0x1c8 <verify_crc8_cdma2000+0x50>
+    uint8_t expected_crc = data_with_crc & 0xFF;  ///< Extract the CRC byte.
+    uint64_t data = data_with_crc >> 8;           ///< Data without the CRC byte.
 
-uint64_t verify_crc8_cdma2000(uint64_t data_with_crc) {
-	uint8_t expected_crc = data_with_crc & 0xFF;
-	uint64_t data = data_with_crc >> 8;
-	if (crc8_cdma2000(data) == expected_crc) {
-		return data;
+    // Verify the CRC.
+    if (crc8_cdma2000(data) == expected_crc) {
+        return data;  ///< Return the data if CRC is valid.
  1b8:	2c 2d       	mov	r18, r12
  1ba:	3d 2d       	mov	r19, r13
  1bc:	4e 2d       	mov	r20, r14
@@ -348,8 +356,9 @@ uint64_t verify_crc8_cdma2000(uint64_t data_with_crc) {
  1c2:	71 2f       	mov	r23, r17
  1c4:	8d 2f       	mov	r24, r29
  1c6:	9c 2f       	mov	r25, r28
-	}
-	return 0;
+    }
+    return 0;  ///< Return 0 if CRC is invalid.
+}
  1c8:	df 91       	pop	r29
  1ca:	cf 91       	pop	r28
  1cc:	1f 91       	pop	r17
@@ -362,61 +371,72 @@ uint64_t verify_crc8_cdma2000(uint64_t data_with_crc) {
  1da:	08 95       	ret
 
 000001dc <GPIO_init>:
- */ 
- #include "Settings.h"
+ * - PA7: Set as Light UART RX input with pull-up resistor.
+ */
+void GPIO_init() {
 
-void GPIO_init(){
-
-    PORTA.DIRSET = PIN6_bm; // Set PA6 as UART Transceiver TX output
+    // Configure PA6 as UART Transceiver TX output
+    PORTA.DIRSET = PIN6_bm;  ///< Set PA6 as an output for TX.
  1dc:	e0 e0       	ldi	r30, 0x00	; 0
  1de:	f4 e0       	ldi	r31, 0x04	; 4
  1e0:	80 e4       	ldi	r24, 0x40	; 64
  1e2:	81 83       	std	Z+1, r24	; 0x01
-    PORTA.PIN6CTRL = PORT_PULLUPEN_bm; //
+    PORTA.PIN6CTRL = PORT_PULLUPEN_bm;  ///< Enable pull-up resistor for PA6 (not strictly needed for TX, but it’s configured for consistency).
  1e4:	88 e0       	ldi	r24, 0x08	; 8
  1e6:	86 8b       	std	Z+22, r24	; 0x16
     
-    PORTA.DIRCLR = PIN1_bm | PIN2_bm | PIN7_bm; // Set PA1 as Xmax input, Set PA2 as Xmin input, Set PA7 as Light UART RX input
+    // Configure PA1, PA2, and PA7 as inputs with pull-up resistors
+    PORTA.DIRCLR = PIN1_bm | PIN2_bm | PIN7_bm; ///< Set PA1, PA2, and PA7 as input pins.
  1e8:	96 e8       	ldi	r25, 0x86	; 134
  1ea:	92 83       	std	Z+2, r25	; 0x02
-    PORTA.PIN1CTRL = PORT_PULLUPEN_bm; //
+    
+    // Enable pull-up resistors for PA1, PA2, and PA7
+    PORTA.PIN1CTRL = PORT_PULLUPEN_bm;  ///< Enable pull-up resistor for PA1.
  1ec:	81 8b       	std	Z+17, r24	; 0x11
-	PORTA.PIN2CTRL = PORT_PULLUPEN_bm; //
+    PORTA.PIN2CTRL = PORT_PULLUPEN_bm;  ///< Enable pull-up resistor for PA2.
  1ee:	82 8b       	std	Z+18, r24	; 0x12
-	PORTA.PIN7CTRL = PORT_PULLUPEN_bm; //
+    PORTA.PIN7CTRL = PORT_PULLUPEN_bm;  ///< Enable pull-up resistor for PA7.
  1f0:	87 8b       	std	Z+23, r24	; 0x17
  1f2:	08 95       	ret
 
 000001f4 <main>:
-#include "Settings.h"
-
-
+ * @return int This function does not return as it enters an infinite loop.
+ */
 int main(void)
 {
-	CLOCK_XOSCHF_clock_init();
+    // Initialize the external high-frequency clock generator for more stable operation.
+    CLOCK_XOSCHF_clock_init(); 
  1f4:	30 df       	rcall	.-416    	; 0x56 <CLOCK_XOSCHF_clock_init>
-	//CLOCK_INHF_clock_init();
-	GPIO_init();
+    
+    // Uncomment the following line if the internal high-frequency clock generator is preferred.
+    //CLOCK_INHF_clock_init(); 
+
+    // Initialize GPIO pins for communication and control tasks.
+    GPIO_init();
  1f6:	f2 df       	rcall	.-28     	; 0x1dc <GPIO_init>
-	USART0_init();
+
+    // Initialize USART0 for serial communication.
+    USART0_init();
  1f8:	7b d1       	rcall	.+758    	; 0x4f0 <USART0_init>
 
+    // Main loop: continuously handle communication via the transceiver.
     while (1) 
     {
-		Transceiver();
+        // Call the transceiver function to manage communication.
+        Transceiver();
  1fa:	c2 d0       	rcall	.+388    	; 0x380 <Transceiver>
  1fc:	fe cf       	rjmp	.-4      	; 0x1fa <main+0x6>
 
 000001fe <countLeadingZeros>:
- *  Author: Saulius
- */ 
- #include "Settings.h"
- #include "TransceiverVar.h"
-
+ * up to a maximum of 16 characters.
+ * 
+ * @param command The command string to process.
+ * @return The number of leading zeros.
+ */
 size_t countLeadingZeros(char *command) {
  1fe:	ac 01       	movw	r20, r24
-	size_t count;
-	for (count = 0; count < 16 && command[count] == '0'; count++);
+    size_t count;
+    for (count = 0; count < 16 && command[count] == '0'; count++);
  200:	80 e0       	ldi	r24, 0x00	; 0
  202:	90 e0       	ldi	r25, 0x00	; 0
  204:	01 c0       	rjmp	.+2      	; 0x208 <countLeadingZeros+0xa>
@@ -430,13 +450,16 @@ size_t countLeadingZeros(char *command) {
  214:	20 81       	ld	r18, Z
  216:	20 33       	cpi	r18, 0x30	; 48
  218:	b1 f3       	breq	.-20     	; 0x206 <countLeadingZeros+0x8>
-	return count;
+    return count;
 }
  21a:	08 95       	ret
 
 0000021c <executeCommand>:
-
-
+ * If an error is detected in the system, the function only sends a specific error 
+ * value based on the state of the microcontroller's input pins (PA1 and PA2).
+ *
+ * @param command The command string to execute.
+ */
 void executeCommand(char *command) {
  21c:	6f 92       	push	r6
  21e:	7f 92       	push	r7
@@ -458,7 +481,7 @@ void executeCommand(char *command) {
  23e:	cd bf       	out	0x3d, r28	; 61
  240:	de bf       	out	0x3e, r29	; 62
  242:	6c 01       	movw	r12, r24
-	char newData[22] = {'<', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '>', '\r', '\n'};
+    char newData[22] = {'<', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '>', '\r', '\n'};
  244:	fe 01       	movw	r30, r28
  246:	31 96       	adiw	r30, 0x01	; 1
  248:	86 e1       	ldi	r24, 0x16	; 22
@@ -492,7 +515,7 @@ void executeCommand(char *command) {
  280:	8c 8b       	std	Y+20, r24	; 0x14
  282:	8a e0       	ldi	r24, 0x0A	; 10
  284:	8d 8b       	std	Y+21, r24	; 0x15
-	uint8_t x = (!(PORTA.IN & PIN1_bm)) | ((!(PORTA.IN & PIN2_bm)) << 1); //checking X min and max values (checking PA1 and PA2 values and shifting those to get 0,1,2,3 values instead of 0,2,4,6)
+    uint8_t x = (!(PORTA.IN & PIN1_bm)) | ((!(PORTA.IN & PIN2_bm)) << 1); // Checking X min and max values (PA1 and PA2 values)
  286:	e0 e0       	ldi	r30, 0x00	; 0
  288:	f4 e0       	ldi	r31, 0x04	; 4
  28a:	20 85       	ldd	r18, Z+8	; 0x08
@@ -508,15 +531,16 @@ void executeCommand(char *command) {
  29e:	80 e0       	ldi	r24, 0x00	; 0
  2a0:	f8 2e       	mov	r15, r24
  2a2:	f2 2a       	or	r15, r18
-	if(!Status.error){
+    
+    if (!Status.error) {
  2a4:	80 91 80 3f 	lds	r24, 0x3F80	; 0x803f80 <__DATA_REGION_ORIGIN__>
  2a8:	81 11       	cpse	r24, r1
  2aa:	35 c0       	rjmp	.+106    	; 0x316 <executeCommand+0xfa>
-	uint64_t a = verify_crc8_cdma2000(hexStringToUint64(command));
+        uint64_t a = verify_crc8_cdma2000(hexStringToUint64(command));
  2ac:	c6 01       	movw	r24, r12
  2ae:	bb d0       	rcall	.+374    	; 0x426 <hexStringToUint64>
  2b0:	63 df       	rcall	.-314    	; 0x178 <verify_crc8_cdma2000>
-		a = (a << 4) | x; //shift data and add X value
+        a = (a << 4) | x; // Shift data and add X value
  2b2:	04 e0       	ldi	r16, 0x04	; 4
  2b4:	63 d1       	rcall	.+710    	; 0x57c <__ashldi3>
  2b6:	63 2e       	mov	r6, r19
@@ -527,7 +551,7 @@ void executeCommand(char *command) {
  2c0:	b8 2e       	mov	r11, r24
  2c2:	e9 2e       	mov	r14, r25
  2c4:	f2 2a       	or	r15, r18
-		uint64ToHex(a, newData +1 + countLeadingZeros(command)); //fill new data starting fom 1 symbol
+        uint64ToHex(a, newData + 1 + countLeadingZeros(command)); // Fill new data starting from 1 symbol
  2c6:	c6 01       	movw	r24, r12
  2c8:	9a df       	rcall	.-204    	; 0x1fe <countLeadingZeros>
  2ca:	01 96       	adiw	r24, 0x01	; 1
@@ -546,7 +570,7 @@ void executeCommand(char *command) {
  2e4:	8b 2d       	mov	r24, r11
  2e6:	9e 2d       	mov	r25, r14
  2e8:	c3 d0       	rcall	.+390    	; 0x470 <uint64ToHex>
-		uint64ToHex(crc8_cdma2000(a), newData + 16); //add new data crc value starting fom 16 symbol
+        uint64ToHex(crc8_cdma2000(a), newData + 16); // Add new data CRC value starting from 16 symbol
  2ea:	2f 2d       	mov	r18, r15
  2ec:	36 2d       	mov	r19, r6
  2ee:	47 2d       	mov	r20, r7
@@ -569,9 +593,8 @@ void executeCommand(char *command) {
  310:	90 e0       	ldi	r25, 0x00	; 0
  312:	ae d0       	rcall	.+348    	; 0x470 <uint64ToHex>
  314:	20 c0       	rjmp	.+64     	; 0x356 <executeCommand+0x13a>
-	}
-	else{// if error active sending only x value with calculated crc it can be: 0xff if x=0x00 (returns first crc8/cmda2000 value), 0xe0 x=0x01, 0xd6 x=0x02, 0x4d x=0x03 (impossible value but still calculated for later easier fault detection (expl.: short circuit))
-		uint64ToHex(x, newData + 15);
+    } else { // If error active, sending only X value with calculated CRC
+        uint64ToHex(x, newData + 15);
  316:	8e 01       	movw	r16, r28
  318:	00 5f       	subi	r16, 0xF0	; 240
  31a:	1f 4f       	sbci	r17, 0xFF	; 255
@@ -584,7 +607,7 @@ void executeCommand(char *command) {
  328:	80 e0       	ldi	r24, 0x00	; 0
  32a:	90 e0       	ldi	r25, 0x00	; 0
  32c:	a1 d0       	rcall	.+322    	; 0x470 <uint64ToHex>
-		uint64ToHex(crc8_cdma2000(x), newData + 16);
+        uint64ToHex(crc8_cdma2000(x), newData + 16);
  32e:	2f 2d       	mov	r18, r15
  330:	30 e0       	ldi	r19, 0x00	; 0
  332:	40 e0       	ldi	r20, 0x00	; 0
@@ -605,8 +628,9 @@ void executeCommand(char *command) {
  350:	80 e0       	ldi	r24, 0x00	; 0
  352:	90 e0       	ldi	r25, 0x00	; 0
  354:	8d d0       	rcall	.+282    	; 0x470 <uint64ToHex>
-	}
-	USART0_sendString(newData);
+    }
+    
+    USART0_sendString(newData); // Send the data via USART
  356:	ce 01       	movw	r24, r28
  358:	01 96       	adiw	r24, 0x01	; 1
  35a:	dc d0       	rcall	.+440    	; 0x514 <USART0_sendString>
@@ -631,9 +655,11 @@ void executeCommand(char *command) {
  37e:	08 95       	ret
 
 00000380 <Transceiver>:
-
-
-
+ * This function continuously reads incoming data via USART, processes the data, 
+ * and executes the appropriate command. If an error occurs or a warning is set, 
+ * it handles the corresponding state. The function handles both normal command 
+ * processing and error recovery.
+ */
 void Transceiver() {
  380:	0f 93       	push	r16
  382:	1f 93       	push	r17
@@ -644,8 +670,8 @@ void Transceiver() {
  38c:	60 97       	sbiw	r28, 0x10	; 16
  38e:	cd bf       	out	0x3d, r28	; 61
  390:	de bf       	out	0x3e, r29	; 62
-	uint8_t index = 0;
-	char command[16] = {0}; // 16 nuliai + null terminatorius
+    uint8_t index = 0;
+    char command[16] = {0}; // Empty command array
  392:	fe 01       	movw	r30, r28
  394:	31 96       	adiw	r30, 0x01	; 1
  396:	80 e1       	ldi	r24, 0x10	; 16
@@ -653,58 +679,58 @@ void Transceiver() {
  39a:	1d 92       	st	X+, r1
  39c:	8a 95       	dec	r24
  39e:	e9 f7       	brne	.-6      	; 0x39a <Transceiver+0x1a>
-	uint8_t start = 0;
+    uint8_t start = 0;
  3a0:	00 e0       	ldi	r16, 0x00	; 0
-}
-
-
-
+ * and executes the appropriate command. If an error occurs or a warning is set, 
+ * it handles the corresponding state. The function handles both normal command 
+ * processing and error recovery.
+ */
 void Transceiver() {
-	uint8_t index = 0;
+    uint8_t index = 0;
  3a2:	10 e0       	ldi	r17, 0x00	; 0
-	char command[16] = {0}; // 16 nuliai + null terminatorius
-	uint8_t start = 0;
+    char command[16] = {0}; // Empty command array
+    uint8_t start = 0;
 
-	while (1) {
-		char c = USART0_readChar();
+    while (1) {
+        char c = USART0_readChar(); // Reading a character from USART
  3a4:	d4 d0       	rcall	.+424    	; 0x54e <USART0_readChar>
 
-		if (Status.error) {
+        if (Status.error) { // If an error is active
  3a6:	90 91 80 3f 	lds	r25, 0x3F80	; 0x803f80 <__DATA_REGION_ORIGIN__>
  3aa:	99 23       	and	r25, r25
  3ac:	41 f0       	breq	.+16     	; 0x3be <Transceiver+0x3e>
-			executeCommand("0");
+            executeCommand("0"); // Execute command 0 for error handling
  3ae:	82 e1       	ldi	r24, 0x12	; 18
  3b0:	97 e8       	ldi	r25, 0x87	; 135
  3b2:	34 df       	rcall	.-408    	; 0x21c <executeCommand>
-			Status.error = 0; // Atstatome klaidà po vykdymo
+            Status.error = 0; // Reset error value
  3b4:	e0 e8       	ldi	r30, 0x80	; 128
  3b6:	ff e3       	ldi	r31, 0x3F	; 63
  3b8:	10 82       	st	Z, r1
-			Status.errorCounter = 0;
+            Status.errorCounter = 0;
  3ba:	11 82       	std	Z+1, r1	; 0x01
-			break;
+            break;
  3bc:	2c c0       	rjmp	.+88     	; 0x416 <__LOCK_REGION_LENGTH__+0x16>
-		}
+        }
 
-		if (start) {
+        if (start) {
  3be:	00 23       	and	r16, r16
  3c0:	81 f0       	breq	.+32     	; 0x3e2 <Transceiver+0x62>
-			if (c == '>') {
+            if (c == '>') { // If received data end symbol
  3c2:	8e 33       	cpi	r24, 0x3E	; 62
  3c4:	21 f4       	brne	.+8      	; 0x3ce <Transceiver+0x4e>
-				start = 0;
-				executeCommand(command);
+                start = 0;
+                executeCommand(command); // Execute the received command
  3c6:	ce 01       	movw	r24, r28
  3c8:	01 96       	adiw	r24, 0x01	; 1
  3ca:	28 df       	rcall	.-432    	; 0x21c <executeCommand>
-				index = 0;
-				break;
+                index = 0;
+                break;
  3cc:	24 c0       	rjmp	.+72     	; 0x416 <__LOCK_REGION_LENGTH__+0x16>
-				} else if (index < 16) {
+            } else if (index < 16) {
  3ce:	10 31       	cpi	r17, 0x10	; 16
  3d0:	40 f4       	brcc	.+16     	; 0x3e2 <Transceiver+0x62>
-				command[index++] = c;
+                command[index++] = c; // Store received character in command array
  3d2:	e1 e0       	ldi	r30, 0x01	; 1
  3d4:	f0 e0       	ldi	r31, 0x00	; 0
  3d6:	ec 0f       	add	r30, r28
@@ -713,57 +739,57 @@ void Transceiver() {
  3dc:	f1 1d       	adc	r31, r1
  3de:	80 83       	st	Z, r24
  3e0:	1f 5f       	subi	r17, 0xFF	; 255
-			}
-		}
+            }
+        }
 
-		if (c == '<') {
+        if (c == '<') { // If received data start symbol
  3e2:	8c 33       	cpi	r24, 0x3C	; 60
  3e4:	31 f4       	brne	.+12     	; 0x3f2 <Transceiver+0x72>
-			start = 1;
-			index = 0;
-			Status.error = 0; // Atstatome klaidà
+            start = 1;
+            index = 0;
+            Status.error = 0; // Reset error state
  3e6:	e0 e8       	ldi	r30, 0x80	; 128
  3e8:	ff e3       	ldi	r31, 0x3F	; 63
  3ea:	10 82       	st	Z, r1
-			Status.errorCounter = 0;
+            Status.errorCounter = 0; // Reset error counter
  3ec:	11 82       	std	Z+1, r1	; 0x01
-				command[index++] = c;
-			}
-		}
+                command[index++] = c; // Store received character in command array
+            }
+        }
 
-		if (c == '<') {
-			start = 1;
+        if (c == '<') { // If received data start symbol
+            start = 1;
  3ee:	01 e0       	ldi	r16, 0x01	; 1
-			index = 0;
+            index = 0;
  3f0:	10 e0       	ldi	r17, 0x00	; 0
-			Status.error = 0; // Atstatome klaidà
-			Status.errorCounter = 0;
-		}
+            Status.error = 0; // Reset error state
+            Status.errorCounter = 0; // Reset error counter
+        }
 
-		if (Status.warning) {
+        if (Status.warning) {
  3f2:	80 91 82 3f 	lds	r24, 0x3F82	; 0x803f82 <__DATA_REGION_ORIGIN__+0x2>
  3f6:	88 23       	and	r24, r24
  3f8:	a9 f2       	breq	.-86     	; 0x3a4 <Transceiver+0x24>
-			Status.warning = 0;
+            Status.warning = 0;
  3fa:	e0 e8       	ldi	r30, 0x80	; 128
  3fc:	ff e3       	ldi	r31, 0x3F	; 63
  3fe:	12 82       	std	Z+2, r1	; 0x02
-			if (Status.errorCounter < CountForError) {
+            if (Status.errorCounter < CountForError) {
  400:	81 81       	ldd	r24, Z+1	; 0x01
  402:	8a 30       	cpi	r24, 0x0A	; 10
  404:	20 f4       	brcc	.+8      	; 0x40e <__LOCK_REGION_LENGTH__+0xe>
-				Status.errorCounter++;
+                Status.errorCounter++;
  406:	8f 5f       	subi	r24, 0xFF	; 255
  408:	80 93 81 3f 	sts	0x3F81, r24	; 0x803f81 <__DATA_REGION_ORIGIN__+0x1>
  40c:	cb cf       	rjmp	.-106    	; 0x3a4 <Transceiver+0x24>
-				} else {
-				Status.error = 1;
+            } else {
+                Status.error = 1; // Set error flag if too many warnings
  40e:	81 e0       	ldi	r24, 0x01	; 1
  410:	80 93 80 3f 	sts	0x3F80, r24	; 0x803f80 <__DATA_REGION_ORIGIN__>
  414:	c7 cf       	rjmp	.-114    	; 0x3a4 <Transceiver+0x24>
-			}
-		}
-	}
+            }
+        }
+    }
 }
  416:	60 96       	adiw	r28, 0x10	; 16
  418:	cd bf       	out	0x3d, r28	; 61
@@ -775,15 +801,15 @@ void Transceiver() {
  424:	08 95       	ret
 
 00000426 <hexStringToUint64>:
- * Created: 2025-03-02 15:42:51
- *  Author: Saulius
- */ 
-  #include "Settings.h"
-
-   uint64_t hexStringToUint64(const char *hexStr) {
+ * ('0'-'9', 'A'-'F', 'a'-'f'). The function stops converting at the first invalid character.
+ * 
+ * @param hexStr The hexadecimal string to convert.
+ * @return The resulting uint64_t value. If the string contains invalid characters, the conversion stops.
+ */
+uint64_t hexStringToUint64(const char *hexStr) {
  426:	0f 93       	push	r16
  428:	dc 01       	movw	r26, r24
-	   uint64_t result = 0;
+    uint64_t result = 0; // Initialize result to 0
  42a:	20 e0       	ldi	r18, 0x00	; 0
  42c:	30 e0       	ldi	r19, 0x00	; 0
  42e:	40 e0       	ldi	r20, 0x00	; 0
@@ -792,68 +818,69 @@ void Transceiver() {
  434:	70 e0       	ldi	r23, 0x00	; 0
  436:	80 e0       	ldi	r24, 0x00	; 0
  438:	90 e0       	ldi	r25, 0x00	; 0
-	   while (*hexStr) {
+    while (*hexStr) {
  43a:	15 c0       	rjmp	.+42     	; 0x466 <hexStringToUint64+0x40>
-		   char c = *hexStr;
-		   uint8_t value = 0;
+        char c = *hexStr;
+        uint8_t value = 0;
 
-		   if (c >= '0' && c <= '9') {
+        // Check if character is a valid hexadecimal digit
+        if (c >= '0' && c <= '9') {
  43c:	f0 ed       	ldi	r31, 0xD0	; 208
  43e:	fe 0f       	add	r31, r30
  440:	fa 30       	cpi	r31, 0x0A	; 10
  442:	68 f0       	brcs	.+26     	; 0x45e <hexStringToUint64+0x38>
-			   value = c - '0';
-			   } else if (c >= 'A' && c <= 'F') {
+            value = c - '0'; // Convert '0'-'9' to 0-9
+        } else if (c >= 'A' && c <= 'F') {
  444:	ff eb       	ldi	r31, 0xBF	; 191
  446:	fe 0f       	add	r31, r30
  448:	f6 30       	cpi	r31, 0x06	; 6
  44a:	18 f4       	brcc	.+6      	; 0x452 <hexStringToUint64+0x2c>
-			   value = c - 'A' + 10;
+            value = c - 'A' + 10; // Convert 'A'-'F' to 10-15
  44c:	f9 ec       	ldi	r31, 0xC9	; 201
  44e:	fe 0f       	add	r31, r30
  450:	06 c0       	rjmp	.+12     	; 0x45e <hexStringToUint64+0x38>
-			   } else if (c >= 'a' && c <= 'f') {
+        } else if (c >= 'a' && c <= 'f') {
  452:	ff e9       	ldi	r31, 0x9F	; 159
  454:	fe 0f       	add	r31, r30
  456:	f6 30       	cpi	r31, 0x06	; 6
  458:	48 f4       	brcc	.+18     	; 0x46c <hexStringToUint64+0x46>
-			   value = c - 'a' + 10;
+            value = c - 'a' + 10; // Convert 'a'-'f' to 10-15
  45a:	f9 ea       	ldi	r31, 0xA9	; 169
  45c:	fe 0f       	add	r31, r30
-			   } else {
-			   break; // Neteisingas simbolis
-		   }
+        } else {
+            break; // Invalid character, stop conversion
+        }
 
-		   result = (result << 4) | value; // Perkeliame 4 bitus ir pridedame naujà reikðmæ
+        result = (result << 4) | value; // Shift 4 bits and add new value
  45e:	04 e0       	ldi	r16, 0x04	; 4
  460:	8d d0       	rcall	.+282    	; 0x57c <__ashldi3>
  462:	2f 2b       	or	r18, r31
-		   hexStr++;
+        hexStr++; // Move to the next character
  464:	11 96       	adiw	r26, 0x01	; 1
- */ 
-  #include "Settings.h"
-
-   uint64_t hexStringToUint64(const char *hexStr) {
-	   uint64_t result = 0;
-	   while (*hexStr) {
+ * @param hexStr The hexadecimal string to convert.
+ * @return The resulting uint64_t value. If the string contains invalid characters, the conversion stops.
+ */
+uint64_t hexStringToUint64(const char *hexStr) {
+    uint64_t result = 0; // Initialize result to 0
+    while (*hexStr) {
  466:	ec 91       	ld	r30, X
  468:	e1 11       	cpse	r30, r1
  46a:	e8 cf       	rjmp	.-48     	; 0x43c <hexStringToUint64+0x16>
 
-		   result = (result << 4) | value; // Perkeliame 4 bitus ir pridedame naujà reikðmæ
-		   hexStr++;
-	   }
-	   return result;
-   }
+        result = (result << 4) | value; // Shift 4 bits and add new value
+        hexStr++; // Move to the next character
+    }
+    return result; // Return the converted value
+}
  46c:	0f 91       	pop	r16
  46e:	08 95       	ret
 
 00000470 <uint64ToHex>:
-	   if (!started) { // Jei reikðmë buvo 0
-		   *out++ = '0';
-	   }
-   }*/
-
+ * the value is 0, in which case "0" is written to the buffer.
+ * 
+ * @param value The uint64_t value to convert.
+ * @param out The output buffer where the hexadecimal string will be written.
+ */
 void uint64ToHex(uint64_t value, char *out) {
  470:	af 92       	push	r10
  472:	bf 92       	push	r11
@@ -874,19 +901,21 @@ void uint64ToHex(uint64_t value, char *out) {
  490:	d8 2f       	mov	r29, r24
  492:	c9 2f       	mov	r28, r25
  494:	d8 01       	movw	r26, r16
-	uint8_t started = 0;
-	for (int8_t i = 60; i >= 0; i -= 4) {
+    uint8_t started = 0; // Flag to indicate if we have started writing digits
+    // Loop through each nibble (4 bits) of the uint64_t value
+    for (int8_t i = 60; i >= 0; i -= 4) {
  496:	ec e3       	ldi	r30, 0x3C	; 60
-		   *out++ = '0';
-	   }
-   }*/
-
+ * 
+ * @param value The uint64_t value to convert.
+ * @param out The output buffer where the hexadecimal string will be written.
+ */
 void uint64ToHex(uint64_t value, char *out) {
-	uint8_t started = 0;
+    uint8_t started = 0; // Flag to indicate if we have started writing digits
  498:	f0 e0       	ldi	r31, 0x00	; 0
-	for (int8_t i = 60; i >= 0; i -= 4) {
+    // Loop through each nibble (4 bits) of the uint64_t value
+    for (int8_t i = 60; i >= 0; i -= 4) {
  49a:	19 c0       	rjmp	.+50     	; 0x4ce <uint64ToHex+0x5e>
-		uint8_t nibble = (value >> i) & 0xF;
+        uint8_t nibble = (value >> i) & 0xF; // Extract the nibble
  49c:	2a 2d       	mov	r18, r10
  49e:	3b 2d       	mov	r19, r11
  4a0:	4c 2d       	mov	r20, r12
@@ -898,11 +927,11 @@ void uint64ToHex(uint64_t value, char *out) {
  4ac:	0e 2f       	mov	r16, r30
  4ae:	81 d0       	rcall	.+258    	; 0x5b2 <__lshrdi3>
  4b0:	2f 70       	andi	r18, 0x0F	; 15
-		if (nibble || started) {
+        if (nibble || started) { // Write the nibble if it's non-zero or we've already started
  4b2:	11 f4       	brne	.+4      	; 0x4b8 <uint64ToHex+0x48>
  4b4:	ff 23       	and	r31, r31
  4b6:	51 f0       	breq	.+20     	; 0x4cc <uint64ToHex+0x5c>
-			*out++ = (nibble < 10) ? ('0' + nibble) : ('a' + nibble - 10);
+            *out++ = (nibble < 10) ? ('0' + nibble) : ('a' + nibble - 10); // Convert nibble to hex character
  4b8:	cd 01       	movw	r24, r26
  4ba:	01 96       	adiw	r24, 0x01	; 1
  4bc:	2a 30       	cpi	r18, 0x0A	; 10
@@ -912,27 +941,28 @@ void uint64ToHex(uint64_t value, char *out) {
  4c4:	29 5a       	subi	r18, 0xA9	; 169
  4c6:	2c 93       	st	X, r18
  4c8:	dc 01       	movw	r26, r24
-			started = 1;
+            started = 1; // Set started flag once we begin writing digits
  4ca:	f1 e0       	ldi	r31, 0x01	; 1
-	   }
-   }*/
-
+ * @param out The output buffer where the hexadecimal string will be written.
+ */
 void uint64ToHex(uint64_t value, char *out) {
-	uint8_t started = 0;
-	for (int8_t i = 60; i >= 0; i -= 4) {
+    uint8_t started = 0; // Flag to indicate if we have started writing digits
+    // Loop through each nibble (4 bits) of the uint64_t value
+    for (int8_t i = 60; i >= 0; i -= 4) {
  4cc:	e4 50       	subi	r30, 0x04	; 4
  4ce:	ee 23       	and	r30, r30
  4d0:	2c f7       	brge	.-54     	; 0x49c <uint64ToHex+0x2c>
-		if (nibble || started) {
-			*out++ = (nibble < 10) ? ('0' + nibble) : ('a' + nibble - 10);
-			started = 1;
-		}
-	}
-	if (!started) *out++ = '0'; // Jei reikðmë buvo 0
+        if (nibble || started) { // Write the nibble if it's non-zero or we've already started
+            *out++ = (nibble < 10) ? ('0' + nibble) : ('a' + nibble - 10); // Convert nibble to hex character
+            started = 1; // Set started flag once we begin writing digits
+        }
+    }
+    if (!started) *out++ = '0'; // If the value was 0, output a single '0'
  4d2:	f1 11       	cpse	r31, r1
  4d4:	02 c0       	rjmp	.+4      	; 0x4da <uint64ToHex+0x6a>
  4d6:	80 e3       	ldi	r24, 0x30	; 48
  4d8:	8c 93       	st	X, r24
+}
  4da:	df 91       	pop	r29
  4dc:	cf 91       	pop	r28
  4de:	1f 91       	pop	r17
@@ -951,7 +981,7 @@ void uint64ToHex(uint64_t value, char *out) {
  * - Asynchronous communication mode with 8 data bits, no parity, and 1 stop bit.
  */
 void USART0_init() {
-    USART0.BAUD = (uint16_t)USART0_BAUD_RATE(500000); ///< Set baud rate to 0.25 Mbps.
+    USART0.BAUD = (uint16_t)USART0_BAUD_RATE(500000); ///< Set baud rate to 0.5 Mbps.
  4f0:	e0 e0       	ldi	r30, 0x00	; 0
  4f2:	f8 e0       	ldi	r31, 0x08	; 8
  4f4:	80 e4       	ldi	r24, 0x40	; 64
@@ -1029,43 +1059,46 @@ void USART0_sendString(char *str) {
  54c:	08 95       	ret
 
 0000054e <USART0_readChar>:
-
+ * period, it sets a warning flag. 
+ * 
+ * @return The received character.
+ */
 char USART0_readChar() {
-	USART0.STATUS = USART_RXCIF_bm; // Clear buffer before reading
+    USART0.STATUS = USART_RXCIF_bm; // Clear buffer before reading
  54e:	80 e8       	ldi	r24, 0x80	; 128
  550:	80 93 04 08 	sts	0x0804, r24	; 0x800804 <crc8_table+0x7f81f2>
-	uint32_t timeout_counter = TIMEOUT_COUNTER; // Set a timeout counter
+    uint32_t timeout_counter = TIMEOUT_COUNTER; // Set a timeout counter
  554:	80 e4       	ldi	r24, 0x40	; 64
  556:	9c e9       	ldi	r25, 0x9C	; 156
  558:	a0 e0       	ldi	r26, 0x00	; 0
  55a:	b0 e0       	ldi	r27, 0x00	; 0
-	while (!(USART0.STATUS & USART_RXCIF_bm)) { // Wait for data to be received
+    while (!(USART0.STATUS & USART_RXCIF_bm)) { // Wait for data to be received
  55c:	08 c0       	rjmp	.+16     	; 0x56e <USART0_readChar+0x20>
-		if (--timeout_counter == 0) { // Timeout condition
+        if (--timeout_counter == 0) { // Timeout condition
  55e:	01 97       	sbiw	r24, 0x01	; 1
  560:	a1 09       	sbc	r26, r1
  562:	b1 09       	sbc	r27, r1
  564:	21 f4       	brne	.+8      	; 0x56e <USART0_readChar+0x20>
-			Status.warning = 1; // Set warning if timeout occurs
+            Status.warning = 1; // Set warning if timeout occurs
  566:	81 e0       	ldi	r24, 0x01	; 1
  568:	80 93 82 3f 	sts	0x3F82, r24	; 0x803f82 <__DATA_REGION_ORIGIN__+0x2>
-			break;
+            break;
  56c:	04 c0       	rjmp	.+8      	; 0x576 <USART0_readChar+0x28>
-}
-
+ * @return The received character.
+ */
 char USART0_readChar() {
-	USART0.STATUS = USART_RXCIF_bm; // Clear buffer before reading
-	uint32_t timeout_counter = TIMEOUT_COUNTER; // Set a timeout counter
-	while (!(USART0.STATUS & USART_RXCIF_bm)) { // Wait for data to be received
+    USART0.STATUS = USART_RXCIF_bm; // Clear buffer before reading
+    uint32_t timeout_counter = TIMEOUT_COUNTER; // Set a timeout counter
+    while (!(USART0.STATUS & USART_RXCIF_bm)) { // Wait for data to be received
  56e:	20 91 04 08 	lds	r18, 0x0804	; 0x800804 <crc8_table+0x7f81f2>
  572:	22 23       	and	r18, r18
  574:	a4 f7       	brge	.-24     	; 0x55e <USART0_readChar+0x10>
-		if (--timeout_counter == 0) { // Timeout condition
-			Status.warning = 1; // Set warning if timeout occurs
-			break;
-		}
-	}
-	return USART0.RXDATAL; // Return received character
+        if (--timeout_counter == 0) { // Timeout condition
+            Status.warning = 1; // Set warning if timeout occurs
+            break;
+        }
+    }
+    return USART0.RXDATAL; // Return received character
  576:	80 91 00 08 	lds	r24, 0x0800	; 0x800800 <crc8_table+0x7f81ee>
 }
  57a:	08 95       	ret
