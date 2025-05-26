@@ -23,14 +23,15 @@
 void GPIO_init() {
 
     // Configure PA6 as UART Transceiver TX output
-    PORTA.DIRSET = PIN6_bm;  ///< Set PA6 as an output for TX.
-    PORTA.PIN6CTRL = PORT_PULLUPEN_bm;  ///< Enable pull-up resistor for PA6 (not strictly needed for TX, but it’s configured for consistency).
+	PORTMUX.CTRLB = PORTMUX_USART0_ALTERNATE_gc; // use alternate pins for attiny212 othervise usart not work!!!
+    PORTA.DIRSET = PIN1_bm;  ///< Set PA6 as an output for TX.
+   // PORTA.PIN1CTRL = PORT_PULLUPEN_bm;  ///< Enable pull-up resistor for PA6 (not strictly needed for TX, but it’s configured for consistency).
     
     // Configure PA1, PA2, and PA7 as inputs with pull-up resistors
-    PORTA.DIRCLR = PIN1_bm | PIN2_bm | PIN7_bm; ///< Set PA1, PA2, and PA7 as input pins.
+    PORTA.DIRCLR = PIN2_bm | PIN6_bm | PIN7_bm; ///< Set PA1, PA2, and PA7 as input pins.
     
     // Enable pull-up resistors for PA1, PA2, and PA7
-    PORTA.PIN1CTRL = PORT_PULLUPEN_bm;  ///< Enable pull-up resistor for PA1.
-    PORTA.PIN2CTRL = PORT_PULLUPEN_bm;  ///< Enable pull-up resistor for PA2.
+ //   PORTA.PIN2CTRL = PORT_PULLUPEN_bm;  ///< Enable pull-up resistor for PA1.
+    PORTA.PIN6CTRL = PORT_PULLUPEN_bm;  ///< Enable pull-up resistor for PA2.
     PORTA.PIN7CTRL = PORT_PULLUPEN_bm;  ///< Enable pull-up resistor for PA7.
 }

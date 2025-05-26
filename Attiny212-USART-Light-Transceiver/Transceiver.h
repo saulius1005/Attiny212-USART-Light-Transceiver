@@ -27,6 +27,8 @@
  */
 #define TIMEOUT_COUNTER 40000 ///< Timeout counter value for operations
 
+#define MESSAGE_LENGTH 17
+
 /**
  * @brief Structure to hold communication status.
  *

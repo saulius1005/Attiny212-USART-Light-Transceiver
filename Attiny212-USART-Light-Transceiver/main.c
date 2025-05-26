@@ -25,10 +25,10 @@
 int main(void)
 {
     // Initialize the external high-frequency clock generator for more stable operation.
-    CLOCK_XOSCHF_clock_init(); 
+    //CLOCK_XOSCHF_clock_init(); 
     
     // Uncomment the following line if the internal high-frequency clock generator is preferred.
-    //CLOCK_INHF_clock_init(); 
+    CLOCK_INHF_clock_init(); 
 
     // Initialize GPIO pins for communication and control tasks.
     GPIO_init();
@@ -41,5 +41,7 @@ int main(void)
     {
         // Call the transceiver function to manage communication.
         Transceiver();
+	  // USART0_sendString("test\r\n"); // Send the data via USART
+	  // _delay_us(10);
     }
 }

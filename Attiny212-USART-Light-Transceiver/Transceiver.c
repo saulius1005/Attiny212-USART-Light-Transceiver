@@ -14,6 +14,7 @@
 #include "Settings.h"
 #include "TransceiverVar.h"
 
+
 /**
  * @brief Count the leading zeros in a command string.
  *
@@ -25,7 +26,7 @@
  */
 size_t countLeadingZeros(char *command) {
     size_t count;
-    for (count = 0; count < 16 && command[count] == '0'; count++);
+    for (count = 0; count < MESSAGE_LENGTH && command[count] == '0'; count++);
     return count;
 }
 
@@ -41,17 +42,23 @@ size_t countLeadingZeros(char *command) {
  * @param command The command string to execute.
  */
 void executeCommand(char *command) {
-    char newData[22] = {'<', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '>', '\r', '\n'};
-    uint8_t x = (!(PORTA.IN & PIN1_bm)) | ((!(PORTA.IN & PIN2_bm)) << 1); // Checking X min and max values (PA1 and PA2 values)
+    char newData[MESSAGE_LENGTH+5] = {'<', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '>', '\r', '\n'};
+    uint8_t x = (!(PORTA.IN & PIN6_bm))<<3 | ((!(PORTA.IN & PIN7_bm)) << 2); // Checking X min and max values (PA1 and PA2 values)
     
+	char data[MESSAGE_LENGTH-1]={0};
+	char crc[2]={command[MESSAGE_LENGTH-2],command[MESSAGE_LENGTH-1]};
+
+	strncpy(data, command, 15);
+
     if (!Status.error) {
-        uint64_t a = verify_crc8_cdma2000(hexStringToUint64(command));
-        a = (a << 4) | x; // Shift data and add X value
-        uint64ToHex(a, newData + 1 + countLeadingZeros(command)); // Fill new data starting from 1 symbol
-        uint64ToHex(crc8_cdma2000(a), newData + 16); // Add new data CRC value starting from 16 symbol
+
+        uint64_t a = verify_crc8_cdma2000(hexStringToUint64(data), hexStringToUint64(crc));
+        a = a + x; // Add X value
+        uint64ToHex(a, newData + 1 + countLeadingZeros(data)); // Fill new data starting from 1 symbol
+        uint64ToHex(crc8_cdma2000(a), newData + MESSAGE_LENGTH-1); // Add new data CRC value starting from 16 symbol
     } else { // If error active, sending only X value with calculated CRC
-        uint64ToHex(x, newData + 15);
-        uint64ToHex(crc8_cdma2000(x), newData + 16);
+        uint64ToHex(x, newData + MESSAGE_LENGTH-2);
+        uint64ToHex(crc8_cdma2000(x), newData + MESSAGE_LENGTH-1);
     }
     
     USART0_sendString(newData); // Send the data via USART
@@ -67,7 +74,7 @@ void executeCommand(char *command) {
  */
 void Transceiver() {
     uint8_t index = 0;
-    char command[16] = {0}; // Empty command array
+    char command[MESSAGE_LENGTH] = {0}; // Empty command array
     uint8_t start = 0;
 
     while (1) {
@@ -86,7 +93,7 @@ void Transceiver() {
                 executeCommand(command); // Execute the received command
                 index = 0;
                 break;
-            } else if (index < 16) {
+            } else if (index < MESSAGE_LENGTH) {
                 command[index++] = c; // Store received character in command array
             }
         }

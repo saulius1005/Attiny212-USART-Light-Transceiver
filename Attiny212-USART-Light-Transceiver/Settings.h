@@ -34,12 +34,11 @@
 #define USART0_BAUD_RATE(BAUD_RATE) ((float)(F_CPU * 64 / (8 * (float)BAUD_RATE)) + 0.5) ///< Baud rate calculation for dual speed
 
 #include <avr/io.h>
-#include <stdio.h>       /**< Include standard I/O library for functions like printf. */
-#include <stdlib.h>
+//#include <stdio.h>       /**< Include standard I/O library for functions like printf. */
+//#include <stdlib.h>
 #include <string.h>      /**< Include string library for handling string functions like strlen. */
 #include <util/delay.h>  /**< Include delay utilities for timing functions. */
 #include <avr/cpufunc.h> /**< Include AVR-specific functions like ccp_write_io. */
-
 #include "Transceiver.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -89,17 +88,6 @@ void USART0_init();
 void USART0_sendChar(char c);
 
 /**
- * @brief Custom output function for printf-style printing via USART0.
- * 
- * Allows `printf` to output characters via USART0 by using the `USART0_sendChar` function.
- * 
- * @param c The character to print.
- * @param stream The stream to print to (not used in this case).
- * @return int 0 to indicate the character was successfully sent.
- */
-int USART0_printChar(char c, FILE *stream);
-
-/**
  * @brief Sends a string via USART0.
  * 
  * Sends a string by calling the `USART0_sendChar` function for each character 
@@ -136,7 +124,7 @@ void Transceiver();
  * @param data_with_crc The data including the CRC to verify.
  * @return uint64_t The data if CRC is correct, or 0 if the CRC is incorrect.
  */
-uint64_t verify_crc8_cdma2000(uint64_t data_with_crc); 
+uint64_t verify_crc8_cdma2000(uint64_t data_without_crc, uint8_t crc); 
 
 /**
  * @brief Calculates the CRC8-CDMA2000 checksum for data.
