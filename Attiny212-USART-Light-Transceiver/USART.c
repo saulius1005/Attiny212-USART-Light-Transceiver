@@ -21,7 +21,7 @@
  * - Asynchronous communication mode with 8 data bits, no parity, and 1 stop bit.
  */
 void USART0_init() {
-    USART0.BAUD = (uint16_t)USART0_BAUD_RATE(500000); ///< Set baud rate to 0.5 Mbps.
+    USART0.BAUD = (uint16_t)USART0_BAUD_RATE(460800); ///< Set baud rate to 0.4608M
     USART0.CTRLB = USART_TXEN_bm | USART_RXEN_bm | USART_RXMODE_CLK2X_gc; ///< Enable transmitter, double-speed mode.
     USART0.CTRLC = USART_CMODE_ASYNCHRONOUS_gc | ///< Configure for asynchronous mode.
                   USART_CHSIZE_8BIT_gc |      ///< Set data frame to 8 bits.

@@ -411,10 +411,10 @@ void GPIO_init() {
     // Initialize USART0 for serial communication.
     USART0_init();
  1f4:	97 d1       	rcall	.+814    	; 0x524 <USART0_init>
+
     // Main loop: continuously handle communication via the transceiver.
     while (1) 
     {
-	//PORTA.OUTTGL = PIN1_bm;
         // Call the transceiver function to manage communication.
         Transceiver();
  1f6:	de d0       	rcall	.+444    	; 0x3b4 <Transceiver>
@@ -1006,10 +1006,10 @@ void uint64ToHex(uint64_t value, char *out) {
  * - Asynchronous communication mode with 8 data bits, no parity, and 1 stop bit.
  */
 void USART0_init() {
-    USART0.BAUD = (uint16_t)USART0_BAUD_RATE(500000); ///< Set baud rate to 0.5 Mbps.
+    USART0.BAUD = (uint16_t)USART0_BAUD_RATE(460800); ///< Set baud rate to 0.4608M
  524:	e0 e0       	ldi	r30, 0x00	; 0
  526:	f8 e0       	ldi	r31, 0x08	; 8
- 528:	80 e4       	ldi	r24, 0x40	; 64
+ 528:	8b e5       	ldi	r24, 0x5B	; 91
  52a:	91 e0       	ldi	r25, 0x01	; 1
  52c:	80 87       	std	Z+8, r24	; 0x08
  52e:	91 87       	std	Z+9, r25	; 0x09
