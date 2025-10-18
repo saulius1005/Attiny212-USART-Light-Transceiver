@@ -21,15 +21,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   8 .debug_abbrev 00001d10  00000000  00000000  00003409  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   00000cf2  00000000  00000000  00005119  2**0
+  9 .debug_line   00000cf8  00000000  00000000  00005119  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_frame  000002bc  00000000  00000000  00005e0c  2**2
+ 10 .debug_frame  000002bc  00000000  00000000  00005e14  2**2
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    000012c7  00000000  00000000  000060c8  2**0
+ 11 .debug_str    000012c7  00000000  00000000  000060d0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    00000a44  00000000  00000000  0000738f  2**0
+ 12 .debug_loc    00000a44  00000000  00000000  00007397  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_ranges 000000c8  00000000  00000000  00007dd3  2**0
+ 13 .debug_ranges 000000c8  00000000  00000000  00007ddb  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -89,18 +89,17 @@ Disassembly of section .text:
 00000054 <__bad_interrupt>:
   54:	d5 cf       	rjmp	.-86     	; 0x0 <__vectors>
 
-00000056 <CLOCK_INHF_clock_init>:
-	/* Configuration complete;*/
-}
-
-void CLOCK_INHF_clock_init() {
-	/* Enable the internal oscillator with a frequency of 20 MHz. */
-	ccp_write_io((uint8_t *) &CLKCTRL.MCLKCTRLA, CLKCTRL_CLKSEL_OSC20M_gc /*| CLKCTRL_CLKOUT_bm*/);
-  56:	60 e0       	ldi	r22, 0x00	; 0
+00000056 <CLOCK_XOSCHF_clock_init>:
+	/* Wait for external clock change to stable */
+/*
+	while (CLKCTRL.MCLKSTATUS & CLKCTRL_EXTS_bm)
+	{}*/;
+	/* Enable external (20 MHz) clock input */
+	ccp_write_io((uint8_t *) &CLKCTRL.MCLKCTRLA, CLKCTRL_CLKSEL_EXTCLK_gc | CLKCTRL_CLKSEL_OSC20M_gc);
+  56:	63 e0       	ldi	r22, 0x03	; 3
   58:	80 e6       	ldi	r24, 0x60	; 96
   5a:	90 e0       	ldi	r25, 0x00	; 0
   5c:	04 d3       	rcall	.+1544   	; 0x666 <ccp_write_io>
-	// For SO14, it is impossible to enable CLKOUT due to the lack of a dedicated pin.
 
 	/* Disable the main clock prescaler for full-speed operation. */
 	ccp_write_io((uint8_t *) &CLKCTRL.MCLKCTRLB, CLKCTRL_PDIV_2X_gc & ~CLKCTRL_PEN_bm);
@@ -109,11 +108,14 @@ void CLOCK_INHF_clock_init() {
   62:	90 e0       	ldi	r25, 0x00	; 0
   64:	00 d3       	rcall	.+1536   	; 0x666 <ccp_write_io>
 
-	/* Wait for the oscillator change to complete. */
-	while (CLKCTRL.MCLKSTATUS & CLKCTRL_SOSC_bm) {};
+	/* Wait for system oscillator change to complete */
+	while (CLKCTRL.MCLKSTATUS & CLKCTRL_SOSC_bm)
   66:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <crc8_table+0x7f79ed>
   6a:	80 fd       	sbrc	r24, 0
-  6c:	fc cf       	rjmp	.-8      	; 0x66 <CLOCK_INHF_clock_init+0x10>
+  6c:	fc cf       	rjmp	.-8      	; 0x66 <CLOCK_XOSCHF_clock_init+0x10>
+	{};
+	/* Configuration complete;*/
+}
   6e:	08 95       	ret
 
 00000070 <crc8_cdma2000>:
@@ -371,38 +373,39 @@ uint64_t verify_crc8_cdma2000(uint64_t data_without_crc, uint8_t crc) {
 void GPIO_init() {
 
     // Configure PA6 as UART Transceiver TX output
-	PORTMUX.CTRLB = PORTMUX_USART0_ALTERNATE_gc; // use alternate pins for attiny212 othervise usart not work!!!
- 1d6:	81 e0       	ldi	r24, 0x01	; 1
- 1d8:	80 93 01 02 	sts	0x0201, r24	; 0x800201 <crc8_table+0x7f7b8b>
-    PORTA.DIRSET = PIN1_bm;  ///< Set PA6 as an output for TX.
- 1dc:	e0 e0       	ldi	r30, 0x00	; 0
- 1de:	f4 e0       	ldi	r31, 0x04	; 4
- 1e0:	82 e0       	ldi	r24, 0x02	; 2
- 1e2:	81 83       	std	Z+1, r24	; 0x01
-   // PORTA.PIN1CTRL = PORT_PULLUPEN_bm;  ///< Enable pull-up resistor for PA6 (not strictly needed for TX, but it’s configured for consistency).
-    
+	PORTMUX.CTRLB = PORTMUX_USART0_DEFAULT_gc; // use alternate pins for attiny212 othervise usart not work!!!
+ 1d6:	10 92 01 02 	sts	0x0201, r1	; 0x800201 <crc8_table+0x7f7b8b>
+    PORTA.DIRSET = PIN6_bm;  ///< Set PA6 as an output for TX.    
+ 1da:	e0 e0       	ldi	r30, 0x00	; 0
+ 1dc:	f4 e0       	ldi	r31, 0x04	; 4
+ 1de:	80 e4       	ldi	r24, 0x40	; 64
+ 1e0:	81 83       	std	Z+1, r24	; 0x01
     // Configure PA1, PA2, and PA7 as inputs with pull-up resistors
-    PORTA.DIRCLR = PIN2_bm | PIN6_bm | PIN7_bm; ///< Set PA1, PA2, and PA7 as input pins.
- 1e4:	84 ec       	ldi	r24, 0xC4	; 196
- 1e6:	82 83       	std	Z+2, r24	; 0x02
+    PORTA.DIRCLR = PIN1_bm | PIN2_bm | PIN7_bm; ///< Set PA1, PA2, and PA7 as input pins.
+ 1e2:	86 e8       	ldi	r24, 0x86	; 134
+ 1e4:	82 83       	std	Z+2, r24	; 0x02
     
     // Enable pull-up resistors for PA1, PA2, and PA7
- //   PORTA.PIN2CTRL = PORT_PULLUPEN_bm;  ///< Enable pull-up resistor for PA1.
-    PORTA.PIN6CTRL = PORT_PULLUPEN_bm;  ///< Enable pull-up resistor for PA2.
- 1e8:	88 e0       	ldi	r24, 0x08	; 8
- 1ea:	86 8b       	std	Z+22, r24	; 0x16
-    PORTA.PIN7CTRL = PORT_PULLUPEN_bm;  ///< Enable pull-up resistor for PA7.
+	PORTA.PIN1CTRL = PORT_PULLUPEN_bm;
+ 1e6:	88 e0       	ldi	r24, 0x08	; 8
+ 1e8:	81 8b       	std	Z+17, r24	; 0x11
+    PORTA.PIN2CTRL = PORT_PULLUPEN_bm;  ///< Enable pull-up resistor for PA2.
+ 1ea:	82 8b       	std	Z+18, r24	; 0x12
+    PORTA.PIN7CTRL = PORT_PULLUPEN_bm /*| PORT_INVEN_bm*/;  ///< Enable pull-up resistor for PA7.
  1ec:	87 8b       	std	Z+23, r24	; 0x17
  1ee:	08 95       	ret
 
 000001f0 <main>:
+ * @return int This function does not return as it enters an infinite loop.
+ */
+int main(void)
 {
     // Initialize the external high-frequency clock generator for more stable operation.
-    //CLOCK_XOSCHF_clock_init(); 
+    CLOCK_XOSCHF_clock_init(); 
+ 1f0:	32 df       	rcall	.-412    	; 0x56 <CLOCK_XOSCHF_clock_init>
     
     // Uncomment the following line if the internal high-frequency clock generator is preferred.
-    CLOCK_INHF_clock_init(); 
- 1f0:	32 df       	rcall	.-412    	; 0x56 <CLOCK_INHF_clock_init>
+    //CLOCK_INHF_clock_init(); 
 
     // Initialize GPIO pins for communication and control tasks.
     GPIO_init();
@@ -506,16 +509,16 @@ void executeCommand(char *command) {
  278:	8c 8b       	std	Y+20, r24	; 0x14
  27a:	8a e0       	ldi	r24, 0x0A	; 10
  27c:	8d 8b       	std	Y+21, r24	; 0x15
-    uint8_t x = (!(PORTA.IN & PIN6_bm))<<3 | ((!(PORTA.IN & PIN7_bm)) << 2); // Checking X min and max values (PA1 and PA2 values)
+    uint8_t x = (!(PORTA.IN & PIN1_bm))<<3 | ((!(PORTA.IN & PIN2_bm)) << 2); // Checking X min and max values (PA1 and PA2 values)
  27e:	80 91 08 04 	lds	r24, 0x0408	; 0x800408 <crc8_table+0x7f7d92>
- 282:	86 fd       	sbrc	r24, 6
+ 282:	81 fd       	sbrc	r24, 1
  284:	02 c0       	rjmp	.+4      	; 0x28a <executeCommand+0x72>
  286:	28 e0       	ldi	r18, 0x08	; 8
  288:	01 c0       	rjmp	.+2      	; 0x28c <executeCommand+0x74>
  28a:	20 e0       	ldi	r18, 0x00	; 0
  28c:	80 91 08 04 	lds	r24, 0x0408	; 0x800408 <crc8_table+0x7f7d92>
- 290:	88 23       	and	r24, r24
- 292:	14 f0       	brlt	.+4      	; 0x298 <executeCommand+0x80>
+ 290:	82 fd       	sbrc	r24, 2
+ 292:	02 c0       	rjmp	.+4      	; 0x298 <executeCommand+0x80>
  294:	94 e0       	ldi	r25, 0x04	; 4
  296:	01 c0       	rjmp	.+2      	; 0x29a <executeCommand+0x82>
  298:	90 e0       	ldi	r25, 0x00	; 0

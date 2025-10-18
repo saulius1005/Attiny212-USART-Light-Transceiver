@@ -43,7 +43,7 @@ size_t countLeadingZeros(char *command) {
  */
 void executeCommand(char *command) {
     char newData[MESSAGE_LENGTH+5] = {'<', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '>', '\r', '\n'};
-    uint8_t x = (!(PORTA.IN & PIN6_bm))<<3 | ((!(PORTA.IN & PIN7_bm)) << 2); // Checking X min and max values (PA1 and PA2 values)
+    uint8_t x = (!(PORTA.IN & PIN1_bm))<<3 | ((!(PORTA.IN & PIN2_bm)) << 2); // Checking X min and max values (PA1 and PA2 values)
     
 	char data[MESSAGE_LENGTH-1]={0};
 	char crc[2]={command[MESSAGE_LENGTH-2],command[MESSAGE_LENGTH-1]};
